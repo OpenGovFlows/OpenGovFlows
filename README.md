@@ -29,7 +29,7 @@ No vendor lock-in. No licensing fees. No proprietary dependencies.
 
 1. Browse the flows above and find one relevant to your organisation
 2. Download the `flow.json` file from the flow's folder
-3. In your Flowise instance: **Chatflows → Import** → select the JSON file
+3. In your Flowise instance: **Chatflows/Agentflows -> Add New -> Settings -> Load Chatflow/Agents**  → select the JSON file
 4. Configure the required API keys and settings (see each flow's `README.md`)
 5. Test with sample data and do due diligence before deploying to real users
 
