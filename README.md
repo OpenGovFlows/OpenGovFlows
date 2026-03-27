@@ -33,7 +33,7 @@ No vendor lock-in. No licensing fees. No proprietary dependencies.
 4. Configure the required API keys and settings (see each flow's `README.md`)
 5. Test with sample data and do due diligence before deploying to real users
 
-**Need help?** [Open a discussion →](https://github.com/opengovflows/open-gov-flows/discussions)
+**Need help?** [Open an issue →](https://github.com/opengovflows/opengovflows/issues)
 
 ---
 
