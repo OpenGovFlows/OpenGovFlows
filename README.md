@@ -50,7 +50,7 @@ flow-name/
 └── CHANGELOG.md        # Version history
 ```
 
-See [docs/using-a-flow.md](./docs/using-a-flow.md) for full guidance.
+See [docs/getting-started.md](./docs/getting-started.md) for full guidance.
 
 ---
 
