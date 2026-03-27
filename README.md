@@ -72,7 +72,7 @@ We ask that all contributions:
 
 These flows are provided for evaluation and adaptation. Before deploying any AI workflow in a live public sector environment you should:
 
-- Complete an AI risk assessment (see our [AI Risk Assessment Generator flow](./flows/cross-sector/ai-risk-assessment-generator/))
+- Complete an AI risk assessment
 - Review outputs against your organisation's information governance policy
 - Ensure compliance with UK GDPR and any sector-specific regulations
 - Obtain appropriate sign-off from your DPO and senior responsible owner
@@ -83,7 +83,7 @@ See [docs/governance.md](./docs/governance.md) for guidance.
 
 ## Roadmap
 
-[View full roadmap →](https://github.com/opengovflows/open-gov-flows/issues)
+[View full roadmap →](https://github.com/opengovflows/opengovflows/issues)
 
 ---
 
