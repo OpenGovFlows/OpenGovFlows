@@ -48,8 +48,6 @@ flows/
         ├── flow.json           ← Flowise export
         ├── manifest.json       ← metadata (see schema below)
         ├── README.md           ← documentation
-        ├── config.example.json ← required environment variables
-        └── CHANGELOG.md        ← version history
 ```
 
 ### 3. Complete the manifest
