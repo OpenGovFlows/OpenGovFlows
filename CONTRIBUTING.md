@@ -129,4 +129,4 @@ Found a flow that produces poor outputs, has a security concern, or contains inc
 
 [Open an issue](https://github.com/opengovflows/opengovflows/issues).
 
-For any security issues, raise a SECURITY issue but do not explicity state what it is and we will be in touch.
+For any security issues, [report a vulnerability](https://github.com/OpenGovFlows/OpenGovFlows/security).
