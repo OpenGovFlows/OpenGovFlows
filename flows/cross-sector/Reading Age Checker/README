@@ -1,0 +1,66 @@
+# Reading Age Checker
+
+Analyses any piece of text or uploaded document and returns a reading age assessment, plain-language score, and a rewritten plain-English version — helping public sector teams communicate clearly with the people they serve.
+
+## What it does
+
+1. Accepts pasted text or an uploaded document (PDF, Word, or plain text)
+2. Calculates a Flesch-Kincaid reading age and grade level
+3. Produces a Flesch Reading Ease score with an interpreted label (e.g. "Difficult – suitable for university graduates")
+4. Identifies specific problem areas: long sentences, complex words, passive voice, and jargon
+5. Rewrites the content at a target reading age (default: age 9, the GOV.UK recommended level, configurable)
+6. Returns a structured report with the original text annotated alongside the plain-English version
+
+## Why this matters
+
+The UK average reading age is 9. Government guidance recommends writing for a reading age of 9–11. Many public sector documents — letters, policy guidance, service pages, consultation documents — are written at a reading age of 14 or above, creating barriers for citizens who most need access to public services.
+
+This flow helps any team — comms, policy, service design, legal — check and improve their content before it goes out.
+
+## Inputs
+
+| Input | Type | Required | Notes |
+|---|---|---|---|
+| Text or document | String or file | Yes | Paste directly or upload PDF/DOCX/TXT |
+| Target reading age | Integer | No | Default: 9 (GOV.UK recommended). Accepts 8–16 |
+| Output format | String | No | `report` (default) or `rewrite-only` |
+
+## Outputs
+
+| Output | Description |
+|---|---|
+| Flesch-Kincaid Reading Age | Numeric reading age (e.g. 14.2) |
+| Flesch Reading Ease score | 0–100 scale with plain-English label |
+| Problem areas | List of long sentences, complex words, passive constructions |
+| Plain-English rewrite | Full rewrite at target reading age |
+| Summary report | Structured markdown report combining all outputs |
+
+## Applicable standards and guidance
+
+- [GOV.UK content design guidance](https://www.gov.uk/guidance/content-design/writing-for-gov-uk) — recommends reading age 9
+- [WCAG 2.2 – 3.1.5 Reading Level](https://www.w3.org/WAI/WCAG22/Understanding/reading-level) — AAA criterion
+- [Plain English Campaign guidelines](https://www.plainenglish.co.uk/)
+- NHS England content style guide — recommends reading age 11 or below
+
+## Sector applicability
+
+| Sector | Use case |
+|---|---|
+| Local government | Resident letters, planning notices, FOI responses, web content |
+| NHS / health | Patient information, appointment letters, discharge summaries |
+| Central government | Policy documents, consultation papers, guidance notes |
+| Education | Parent communications, school prospectuses |
+| Housing associations | Tenancy agreements, service charge statements |
+
+## Platform implementations
+
+| Platform | Status | Folder |
+|---|---|---|
+| Flowise | Available | [`flowise/`](./flowise/) |
+
+## Limitations
+
+- Reading age scores are approximations based on sentence and word length; they do not capture semantic complexity
+- The plain-English rewrite should be reviewed by a human before publication — AI rewrites can change meaning unintentionally
+- Non-English text is not supported in this version
+- Very short inputs (under 100 words) produce unreliable scores
