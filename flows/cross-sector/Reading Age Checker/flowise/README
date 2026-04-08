@@ -1,0 +1,96 @@
+# Reading Age Checker — Flowise
+
+Flowise implementation of the [Reading Age Checker](../README.md) flow.
+
+## Requirements
+
+- Flowise >= 1.7.0
+- OpenAI API key (GPT-4o recommended; GPT-3.5-turbo supported with reduced accuracy)
+
+## Setup
+
+1. In Flowise, go to **Chatflows → Import**
+2. Upload `workflow.json`
+3. Open the **LLM – Readability Analyser** node and connect your OpenAI credential
+4. Save and deploy
+
+## Configuration
+
+| Node | Setting | Default | Notes |
+|---|---|---|---|
+| LLM – Readability Analyser | Model | `gpt-4o` | Downgrade to `gpt-4o-mini` to reduce cost; quality of rewrite will decrease |
+| LLM – Readability Analyser | Temperature | `0.2` | Keep low (0.1–0.3) for consistent scoring |
+| LLM – Readability Analyser | Max Tokens | `4096` | Increase to `8192` for very long documents |
+| Reading Age Analysis Prompt | Target reading age variable | `9` | Pass as `target_reading_age` in the API request or set a default in the prompt |
+
+## Usage
+
+Send a POST request to your Flowise chatflow endpoint:
+
+```bash
+curl -X POST \
+  https://your-flowise-instance/api/v1/prediction/<chatflow-id> \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "Please analyse this text for reading age.",
+    "overrideConfig": {
+      "promptValues": {
+        "input_text": "The council hereby gives notice that it intends to make a Traffic Regulation Order...",
+        "target_reading_age": "9"
+      }
+    }
+  }'
+```
+
+## Response format
+
+The flow returns a JSON string with this structure:
+
+```json
+{
+  "flesch_kincaid_reading_age": 15.4,
+  "flesch_reading_ease_score": 32,
+  "flesch_reading_ease_label": "Difficult",
+  "word_count": 214,
+  "sentence_count": 8,
+  "average_words_per_sentence": 26.8,
+  "average_syllables_per_word": 1.9,
+  "problem_areas": [
+    {
+      "type": "long-sentence",
+      "excerpt": "The council hereby gives notice that it intends...",
+      "suggestion": "Split into two sentences. Start with the key fact."
+    },
+    {
+      "type": "jargon",
+      "excerpt": "Traffic Regulation Order",
+      "suggestion": "Explain on first use: 'a Traffic Regulation Order (a legal rule about how traffic can use the road)'"
+    }
+  ],
+  "plain_english_rewrite": "We are planning to change the traffic rules on...",
+  "summary": "This text has a reading age of 15, which is above the GOV.UK recommended level of 9. The main issues are long sentences and unexplained legal jargon. The rewrite brings this down to a reading age of 9."
+}
+```
+
+## Extending this flow
+
+- **Document upload**: Add a **PDF File** or **Docx File** loader node upstream of the prompt to support file uploads rather than pasted text
+- **Batch processing**: Chain multiple LLMChain nodes to process documents section by section for very long inputs
+- **Custom jargon list**: Add a second prompt node that checks the text against a department-specific jargon list before the main analysis
+- **Output formatting**: Add a second LLM call to reformat the JSON output as a human-readable HTML or markdown report
+
+## Cost estimate
+
+| Model | Typical input (500 words) | Typical output | Estimated cost per run |
+|---|---|---|---|
+| gpt-4o | ~750 tokens | ~1,500 tokens | ~$0.014 |
+| gpt-4o-mini | ~750 tokens | ~1,500 tokens | ~$0.001 |
+| gpt-3.5-turbo | ~750 tokens | ~1,500 tokens | ~$0.001 |
+
+Costs correct as of April 2026. Check [OpenAI pricing](https://openai.com/pricing) for current rates.
+
+## Known limitations
+
+- Flesch-Kincaid scoring is approximated by the LLM, not computed algorithmically. For auditable, exact scores consider pre-processing with a library such as `textstat` (Python) before passing to the flow
+- Documents over ~3,000 words may hit token limits; split into sections and run separately
+- Legal, clinical, and technical terms may be simplified in the rewrite — always review before publishing
