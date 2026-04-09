@@ -1,0 +1,94 @@
+{
+  "id": "reading-age-checker",
+  "name": "Reading Age Checker",
+  "version": "1.0.0",
+  "status": "experimental",
+  "description": "Analyses any text or document and returns a Flesch-Kincaid reading age, Flesch Reading Ease score, and a list of problem areas. Produces a plain-English rewrite at a configurable target reading age.",
+  "sector": [
+    "cross-sector"
+  ],
+  "use_case_category": "accessibility",
+  "tags": [
+    "readability",
+    "plain-english",
+    "accessibility",
+    "communications",
+    "content-design",
+    "wcag"
+  ],
+  "flowise": {
+    "min_version": "3.0.0",
+    "tested_version": "3.0.5",
+    "flow_file": "workflow.json"
+  },
+  "requirements": {
+    "llm": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "notes": "GPT-4o-mini works but produces less accurate rewrites. GPT-3.5-turbo is not recommended for long documents. Can also switch to any model."
+    },
+    "environment_variables": [
+      {
+        "key": "OPENAI_API_KEY",
+        "required": true,
+        "description": "Your OpenAI API key"
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "name": "input_text",
+      "type": "text",
+      "description": "The text to be analysed. Paste directly or provide extracted document content.",
+      "required": true
+    },
+    {
+      "name": "target_reading_age",
+      "type": "text",
+      "description": "The reading age to aim for in the plain-English rewrite. Accepts a number between 8 and 16. Defaults to 9 if not provided \u2014 the GOV.UK recommended reading age for public-facing content.",
+      "required": false
+    },
+    {
+      "name": "output_format",
+      "type": "text",
+      "description": "Set to 'report' for a full structured report (default), or 'rewrite-only' to return only the plain-English rewrite.",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "flesch_kincaid_reading_age",
+      "type": "text",
+      "description": "Estimated reading age of the input text as a number, for example 14.2."
+    },
+    {
+      "name": "flesch_reading_ease_score",
+      "type": "text",
+      "description": "Readability score from 0 to 100. Higher scores mean easier reading. Includes a plain-English label such as 'Difficult' or 'Easy'."
+    },
+    {
+      "name": "problem_areas",
+      "type": "json",
+      "description": "A list of flagged issues including long sentences, complex words, passive voice, and jargon, each with a suggested improvement."
+    },
+    {
+      "name": "plain_english_rewrite",
+      "type": "text",
+      "description": "A full rewrite of the input text at the target reading age, preserving all meaning."
+    },
+    {
+      "name": "summary",
+      "type": "text",
+      "description": "A two to three sentence plain-English summary of the readability assessment and its key findings."
+    }
+  ],
+  "governance": {
+    "human_review_required": true,
+    "human_review_notes": "A human editor must review the plain-English rewrite before publication. Check that no facts have been omitted or altered, that legal or technical terms have not been oversimplified in ways that change meaning, and that the tone is appropriate for the intended audience.",
+    "data_sensitivity": "medium",
+    "data_notes": "The input text may contain personal data if the user pastes correspondence, case notes, or citizen-facing letters. Users should be advised not to paste documents containing special category data. No data is stored by this flow beyond the active session.",
+    "risk_level": "low",
+    "iso_42001_aligned": true
+  },
+  "licence": "MIT"
+}

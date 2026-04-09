@@ -1,0 +1,121 @@
+# Reading Age Checker — Flowise
+
+Flowise implementation of the [Reading Age Checker](../README.md) flow. Built as an agentflow on Flowise 3.x.
+
+## Requirements
+
+- Flowise >= 3.0.0
+- OpenAI API key (GPT-4o recommended; GPT-4o-mini supported with reduced rewrite quality) - Can also be switched for any model you require.
+
+## Setup
+
+1. In Flowise, go to **Agentflows → Add New**
+2. Click the settings icon and choose **Import**
+3. Upload `workflow.json`
+4. Open the **Reading Age Analyser** agent node and connect your OpenAI credential
+5. Save and test
+
+## Configuration
+
+| Node | Setting | Default | Notes |
+|---|---|---|---|
+| Reading Age Analyser | Model | `gpt-4o` | Downgrade to `gpt-4o-mini` to reduce cost; rewrite quality will decrease |
+| Reading Age Analyser | Temperature | `0.2` | Keep low (0.1–0.3) for consistent scoring |
+| Reading Age Analyser | Max Tokens | `4096` | Increase to `8192` for very long documents |
+| Start | `target_reading_age` | `9` | Edit in Flow State to change the default target reading age |
+| Start | `output_format` | `report` | Edit in Flow State — set to `rewrite-only` to return only the plain-English rewrite |
+
+## Usage
+
+Send a POST request to your Flowise agentflow endpoint:
+
+```bash
+curl -X POST \
+  https://your-flowise-instance/api/v1/prediction/<agentflow-id> \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "The Council hereby gives notice pursuant to Section 184 of the Highways Act 1980..."
+  }'
+```
+
+To override the target reading age for a specific request, include it in your message:
+
+```bash
+curl -X POST \
+  https://your-flowise-instance/api/v1/prediction/<agentflow-id> \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "Please analyse this text for reading age 11: The Council hereby gives notice..."
+  }'
+```
+
+## Response format
+
+The flow returns a human-readable markdown report structured as follows:
+
+```
+## Reading age assessment
+
+**Reading age: 21 — Very difficult**
+
+This text is written at a reading age of 21, well above the GOV.UK recommended
+level of 9. It contains very long sentences, passive voice, and legal jargon that
+most readers will find difficult to understand.
+
+---
+
+## Issues found
+
+- **Long sentence** "The Council of the London Borough of Southwark hereby gives notice..." — split into shorter sentences, leading with the key action
+- **Passive voice** "must be received by the Head of Highways and Infrastructure" — change to "send your objection to the Head of Highways and Infrastructure"
+- **Complex word** "facilitating" — use "helping" instead
+- **Jargon** "pursuant to Section 184 of the Highways Act 1980" — explain as "under Section 184 of the Highways Act 1980"
+
+---
+
+## Plain-English rewrite
+
+The Council of the London Borough of Southwark is giving notice under Section 184
+of the Highways Act 1980. They plan to make a Temporary Traffic Regulation Order.
+This will stop vehicles from using or waiting on the roads listed in the Schedule.
+This is to help with construction and road works. If you want to object, write to
+the Head of Highways and Infrastructure. They must receive your objection within
+21 days of this Notice being published.
+
+---
+
+## Scores
+
+| Measure                      | Score          |
+|------------------------------|----------------|
+| Flesch-Kincaid Reading Age   | 21.1           |
+| Flesch Reading Ease          | 14.3 — Very difficult |
+| Word count                   | 97             |
+| Sentences                    | 2              |
+| Average words per sentence   | 48.5           |
+| Average syllables per word   | 1.9            |
+```
+
+## Extending this flow
+
+- **Custom default reading age**: Change the `target_reading_age` value in the Start node's Flow State
+- **Document upload**: Add a document loader node upstream of the agent to support PDF or DOCX file uploads
+- **Batch processing**: Chain a second agent node to process documents section by section for inputs over 3,000 words
+- **Custom jargon list**: Extend the system prompt with a department-specific list of terms to always flag
+
+## Cost estimate
+
+| Model | Typical input (500 words) | Typical output | Estimated cost per run |
+|---|---|---|---|
+| gpt-4o | ~750 tokens | ~1,500 tokens | ~$0.014 |
+| gpt-4o-mini | ~750 tokens | ~1,500 tokens | ~$0.001 |
+
+Costs correct as of April 2026. Check [OpenAI pricing](https://openai.com/pricing) for current rates.
+
+## Known limitations
+
+- Flesch-Kincaid scoring is approximated by the LLM, not computed algorithmically. For auditable exact scores, consider pre-processing with a library such as `textstat` (Python) before passing text to the flow
+- Inputs over ~3,000 words may produce truncated output — split long documents into sections and run separately
+- The plain-English rewrite must be reviewed by a human before publication, particularly for legal, clinical, or regulatory documents
+- Non-English text is not supported in this version
+- This is AI technology, always ensure you have got the correct clearance before using
