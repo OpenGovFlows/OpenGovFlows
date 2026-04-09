@@ -1,0 +1,438 @@
+{
+  "nodes": [
+    {
+      "id": "startAgentflow_0",
+      "type": "agentFlow",
+      "position": {
+        "x": 100,
+        "y": 250
+      },
+      "data": {
+        "id": "startAgentflow_0",
+        "label": "Start",
+        "version": 1.1,
+        "name": "startAgentflow",
+        "type": "Start",
+        "color": "#7EE787",
+        "hideInput": true,
+        "baseClasses": [
+          "Start"
+        ],
+        "category": "Agent Flows",
+        "description": "Starting point of the agentflow",
+        "inputParams": [
+          {
+            "label": "Input Type",
+            "name": "startInputType",
+            "type": "options",
+            "options": [
+              {
+                "label": "Chat Input",
+                "name": "chatInput",
+                "description": "Start the conversation with chat input"
+              },
+              {
+                "label": "Form Input",
+                "name": "formInput",
+                "description": "Start the workflow with form inputs"
+              }
+            ],
+            "default": "chatInput",
+            "id": "startAgentflow_0-input-startInputType-options",
+            "display": true
+          },
+          {
+            "label": "Form Title",
+            "name": "formTitle",
+            "type": "string",
+            "placeholder": "Please Fill Out The Form",
+            "show": {
+              "startInputType": "formInput"
+            },
+            "id": "startAgentflow_0-input-formTitle-string",
+            "display": false
+          },
+          {
+            "label": "Form Description",
+            "name": "formDescription",
+            "type": "string",
+            "placeholder": "Complete all fields below to continue",
+            "show": {
+              "startInputType": "formInput"
+            },
+            "id": "startAgentflow_0-input-formDescription-string",
+            "display": false
+          },
+          {
+            "label": "Form Input Types",
+            "name": "formInputTypes",
+            "description": "Specify the type of form input",
+            "type": "array",
+            "show": {
+              "startInputType": "formInput"
+            },
+            "array": [
+              {
+                "label": "Type",
+                "name": "type",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "String",
+                    "name": "string"
+                  },
+                  {
+                    "label": "Number",
+                    "name": "number"
+                  },
+                  {
+                    "label": "Boolean",
+                    "name": "boolean"
+                  },
+                  {
+                    "label": "Options",
+                    "name": "options"
+                  }
+                ],
+                "default": "string"
+              },
+              {
+                "label": "Label",
+                "name": "label",
+                "type": "string",
+                "placeholder": "Label for the input"
+              },
+              {
+                "label": "Variable Name",
+                "name": "name",
+                "type": "string",
+                "placeholder": "Variable name for the input (must be camel case)"
+              },
+              {
+                "label": "Add Options",
+                "name": "addOptions",
+                "type": "array",
+                "show": {
+                  "formInputTypes[$index].type": "options"
+                },
+                "array": [
+                  {
+                    "label": "Option",
+                    "name": "option",
+                    "type": "string"
+                  }
+                ]
+              }
+            ],
+            "id": "startAgentflow_0-input-formInputTypes-array",
+            "display": false
+          },
+          {
+            "label": "Ephemeral Memory",
+            "name": "startEphemeralMemory",
+            "type": "boolean",
+            "description": "Start fresh for every execution without past chat history",
+            "optional": true,
+            "id": "startAgentflow_0-input-startEphemeralMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Flow State",
+            "name": "startState",
+            "description": "Runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "string",
+                "placeholder": "Foo"
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "placeholder": "Bar",
+                "optional": true
+              }
+            ],
+            "id": "startAgentflow_0-input-startState-array",
+            "display": true
+          },
+          {
+            "label": "Persist State",
+            "name": "startPersistState",
+            "type": "boolean",
+            "description": "Persist the state in the same session",
+            "optional": true,
+            "id": "startAgentflow_0-input-startPersistState-boolean",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "startInputType": "chatInput",
+          "formTitle": "",
+          "formDescription": "",
+          "formInputTypes": "",
+          "startEphemeralMemory": true,
+          "startState": [
+            {
+              "key": "target_reading_age",
+              "value": "9"
+            },
+            {
+              "key": "output_format",
+              "value": "report"
+            }
+          ],
+          "startPersistState": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "startAgentflow_0-output-startAgentflow",
+            "label": "Start",
+            "name": "startAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 103,
+      "height": 66,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 100,
+        "y": 250
+      },
+      "dragging": false
+    },
+    {
+      "id": "agentAgentflow_0",
+      "type": "agentFlow",
+      "position": {
+        "x": 343,
+        "y": 246.5
+      },
+      "data": {
+        "id": "agentAgentflow_0",
+        "label": "Reading Age Analyser",
+        "version": 2,
+        "name": "agentAgentflow",
+        "type": "Agent",
+        "color": "#4DD0E1",
+        "baseClasses": [
+          "Agent"
+        ],
+        "category": "Agent Flows",
+        "description": "Analyses text for reading age and produces a plain-English rewrite",
+        "inputParams": [
+          {
+            "label": "Model",
+            "name": "agentModel",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "loadConfig": true,
+            "id": "agentAgentflow_0-input-agentModel-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Messages",
+            "name": "agentMessages",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Role",
+                "name": "role",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "System",
+                    "name": "system"
+                  },
+                  {
+                    "label": "Human",
+                    "name": "human"
+                  },
+                  {
+                    "label": "AI",
+                    "name": "ai"
+                  }
+                ]
+              },
+              {
+                "label": "Content",
+                "name": "content",
+                "type": "string",
+                "acceptVariable": true,
+                "rows": 4
+              }
+            ],
+            "id": "agentAgentflow_0-input-agentMessages-array",
+            "display": true
+          },
+          {
+            "label": "Enable Memory",
+            "name": "agentEnableMemory",
+            "type": "boolean",
+            "description": "Enable memory for the conversation thread",
+            "default": true,
+            "optional": true,
+            "id": "agentAgentflow_0-input-agentEnableMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Memory Type",
+            "name": "agentMemoryType",
+            "type": "options",
+            "options": [
+              {
+                "label": "All Messages",
+                "name": "allMessages"
+              },
+              {
+                "label": "Window Size",
+                "name": "windowSize"
+              },
+              {
+                "label": "Conversation Summary",
+                "name": "conversationSummary"
+              },
+              {
+                "label": "Conversation Summary Buffer",
+                "name": "conversationSummaryBuffer"
+              }
+            ],
+            "optional": true,
+            "default": "allMessages",
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_0-input-agentMemoryType-options",
+            "display": true
+          },
+          {
+            "label": "Return Response As",
+            "name": "agentReturnResponseAs",
+            "type": "options",
+            "options": [
+              {
+                "label": "User Message",
+                "name": "userMessage"
+              },
+              {
+                "label": "Assistant Message",
+                "name": "assistantMessage"
+              }
+            ],
+            "default": "userMessage",
+            "id": "agentAgentflow_0-input-agentReturnResponseAs-options",
+            "display": true
+          },
+          {
+            "label": "Update Flow State",
+            "name": "agentUpdateState",
+            "description": "Update runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "asyncOptions",
+                "loadMethod": "listRuntimeStateKeys",
+                "freeSolo": true
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "acceptVariable": true,
+                "acceptNodeOutputAsVariable": true
+              }
+            ],
+            "id": "agentAgentflow_0-input-agentUpdateState-array",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "agentModel": "chatOpenAI",
+          "agentMessages": [
+            {
+              "role": "system",
+              "content": "<h1>Reading Age Checker — System Prompt</h1><p>You are a plain-English readability expert working with UK public sector organisations. Your job is to analyse text for reading age and rewrite it so that more people can understand it.</p><p>When the user sends text, analyse it and return a clearly formatted report using the structure below. Use plain English throughout — this report will be read by communications officers, policy teams, and service designers, not developers.</p><h2>Output format</h2><p>Return your response in this exact structure:</p><hr><h2>Reading age assessment</h2><p><strong>Reading age: [X] — [label]</strong></p><p>[2–3 sentence plain-English summary of the assessment. Mention the reading age, what that means in practice, and the GOV.UK recommended level of 9. Be direct and specific to the text.]</p><hr><h2>Issues found</h2><p>[List each issue on its own line in this format:]</p><ul><li><p><strong>[type]</strong> \"[excerpt]\" — [suggestion]</p></li></ul><p>Where type is one of: Long sentence · Complex word · Passive voice · Jargon</p><hr><h2>Plain-English rewrite</h2><p>[Full rewrite of the input text at the target reading age. Preserve all meaning, facts, legal references, legislation, schedules, deadlines, and named parties.]</p><hr><h2>Scores</h2><ul><li><p>Flesch-Kincaid Reading Age [number]</p></li><li><p>Flesch Reading Ease [number] — [label]</p></li><li><p>Word count [number]</p></li><li><p>Sentences [number]</p></li><li><p>Average words per sentence [number]</p></li><li><p>Average syllables per word [number]</p></li></ul><hr><h2>Issue types — guidance</h2><p>Always check for all four types. Flag every instance you find, up to 10 issues total, prioritising the most impactful.</p><ul><li><p><strong>Long sentence</strong> — any sentence over 25 words</p></li><li><p><strong>Complex word</strong> — words of 3+ syllables that have a simpler everyday alternative</p></li><li><p><strong>Passive voice</strong> — constructions where the subject receives the action, e.g. \"must be received by\", \"is required to be\", \"will be prohibited\". Look carefully for constructions ending in \"by\" or using \"to be\" + past participle.</p></li><li><p><strong>Jargon</strong> — technical, legal, or bureaucratic terms a general reader would not know</p></li></ul><h2>Scoring guidance</h2><ul><li><p><strong>Flesch-Kincaid Reading Age:</strong> 0.39 × (words/sentences) + 11.8 × (syllables/words) − 15.59</p></li><li><p><strong>Flesch Reading Ease:</strong> 90–100 = Very easy (age 11 and below), 70–89 = Easy (age 12–13), 60–69 = Standard (age 13–15), 50–59 = Fairly difficult (age 15–17), 30–49 = Difficult (degree level), 0–29 = Very difficult (professional)</p></li></ul><h2>Flesch Reading Ease labels</h2><p>Use exactly one of these labels: Very easy · Easy · Standard · Fairly difficult · Difficult · Very difficult</p><h2>Rewriting guidance</h2><ul><li><p><strong>Target reading age:</strong> use the value provided in the user message, or default to 9 if not specified. Age 9 is the GOV.UK recommended reading age for public-facing content.</p></li><li><p>Use short sentences averaging 15–20 words</p></li><li><p>Use common everyday words — replace long or technical words with simpler alternatives</p></li><li><p>Use active voice instead of passive voice</p></li><li><p>Use second person (\"you\") when addressing the reader</p></li><li><p>Do not change facts, omit information, or alter legal meaning</p></li><li><p>Preserve all original information — simpler does not mean shorter</p></li><li><p>For legal or regulatory documents, retain all references to specific legislation, schedules, deadlines, and named parties even if the surrounding language is simplified</p></li></ul>"
+            }
+          ],
+          "agentToolsBuiltInOpenAI": "",
+          "agentTools": "",
+          "agentKnowledgeDocumentStores": "",
+          "agentKnowledgeVSEmbeddings": "",
+          "agentEnableMemory": true,
+          "agentMemoryType": "allMessages",
+          "agentUserMessage": "",
+          "agentReturnResponseAs": "userMessage",
+          "agentUpdateState": "",
+          "agentModelConfig": {
+            "cache": "",
+            "modelName": "gpt-4o",
+            "temperature": 0.2,
+            "streaming": true,
+            "maxTokens": 4096,
+            "topP": "",
+            "frequencyPenalty": "",
+            "presencePenalty": "",
+            "timeout": "",
+            "strictToolCalling": "",
+            "stopSequence": "",
+            "basepath": "",
+            "proxyUrl": "",
+            "baseOptions": "",
+            "allowImageUploads": "",
+            "imageResolution": "low",
+            "reasoning": "",
+            "reasoningEffort": "",
+            "reasoningSummary": "",
+            "agentModel": "chatOpenAI"
+          }
+        },
+        "outputAnchors": [
+          {
+            "id": "agentAgentflow_0-output-agentAgentflow",
+            "label": "Agent",
+            "name": "agentAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 216,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 343,
+        "y": 246.5
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "startAgentflow_0",
+      "sourceHandle": "startAgentflow_0-output-startAgentflow",
+      "target": "agentAgentflow_0",
+      "targetHandle": "agentAgentflow_0",
+      "data": {
+        "sourceColor": "#7EE787",
+        "targetColor": "#4DD0E1",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "startAgentflow_0-startAgentflow_0-output-startAgentflow-agentAgentflow_0-agentAgentflow_0"
+    }
+  ]
+}
