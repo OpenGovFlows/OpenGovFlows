@@ -2,13 +2,13 @@
 
 **The open standard for public sector AI workflows.**
 
-A free, open-source library of production-ready AI workflows built specifically for UK public sector organisations. Built on [Flowise](https://flowiseai.com). Free to use. Free to adapt. Community maintained.
+A free, open-source library of production-ready AI workflows built specifically for UK public sector organisations. Free to use. Free to adapt. Community maintained.
 
 ---
 
 ## What is this?
 
-Open Gov Flows is a library of pre-built AI workflows covering the most common use cases in local government, NHS, central government, and ALB's. Each flow is a tested, documented Flowise export you can import into your own Flowise instance and run immediately.
+Open Gov Flows is a library of pre-built AI workflows covering the most common use cases in local government, NHS, central government, and ALB's. Each flow is a tested, documented export you can import into your own AI workflow instance and run immediately. For example, [Flowise](https://flowiseai.com/), [N8N](https://n8n.io/), [Copilot Studio[(https://www.microsoft.com/en-us/microsoft-365-copilot/microsoft-copilot-studio), etc.
 
 No vendor lock-in. No licensing fees. No proprietary dependencies.
 
@@ -23,9 +23,9 @@ No vendor lock-in. No licensing fees. No proprietary dependencies.
 
 ---
 
-## Getting started in 5 minutes
+## Getting started in 5 minutes (Flowise example)
 
-**Prerequisites:** A running Flowise instance (v2.x+). [How to install Flowise →](https://docs.flowiseai.com/getting-started)
+**Prerequisites:** A running Flowise instance. [How to install Flowise →](https://docs.flowiseai.com/getting-started)
 
 1. Browse the flows above and find one relevant to your organisation
 2. Download the `flow.json` file from the flow's folder
@@ -43,7 +43,7 @@ Each flow folder contains:
 
 ```
 flow-name/
-├── flow.json           # The Flowise export — import this
+├── workflow.json       # The flow export — import this
 ├── manifest.json       # Metadata: sector, use case, requirements
 ├── README.md           # What it does, how to configure it, example outputs
 ├── config.example.json # Environment variables you'll need to set
