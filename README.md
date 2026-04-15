@@ -42,12 +42,12 @@ No vendor lock-in. No licensing fees. No proprietary dependencies.
 Each flow folder contains:
 
 ```
-flow-name/
-├── workflow.json       # The flow export — import this
-├── manifest.json       # Metadata: sector, use case, requirements
-├── README.md           # What it does, how to configure it, example outputs
-├── config.example.json # Environment variables you'll need to set
-└── CHANGELOG.md        # Version history
+[your-flow-name]/
+      ├── README.md                ← what the flow does, links to platforms
+      └── [platform]/              ← e.g. flowise/, n8n/, copilot-studio/
+          ├── workflow.json        ← platform export
+          ├── manifest.json        ← metadata
+          └── README.md            ← platform-specific setup instructions
 ```
 
 See [docs/getting-started.md](./docs/getting-started.md) for full guidance.
