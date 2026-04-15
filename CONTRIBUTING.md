@@ -45,15 +45,18 @@ Your flow folder must contain:
 flows/
 └── [sector]/
     └── [your-flow-name]/
-        ├── flow.json           ← Flowise export
-        ├── manifest.json       ← metadata (see schema below)
-        ├── README.md           ← documentation
+        ├── README.md                ← what the flow does, links to platforms
+        └── [platform]/              ← e.g. flowise/, n8n/, copilot-studio/
+            ├── workflow.json        ← platform export
+            ├── manifest.json        ← metadata
+            └── README.md            ← platform-specific setup instructions
 ```
 
 ### 3. Complete the manifest
 
 Copy the manifest from any existing flow as a template or use our provided one under /docs. Every field is required. The fields reviewers look at most closely:
 
+- 'platform' - must match your subfolder name exactly (e.g. flowise, n8n, copliot-studio)
 - `status` — use `stable` or `experimental` honestly
 - `governance.human_review_required` — must be `true` for anything affecting citizens
 - `governance.risk_level` — do not understate this
@@ -74,9 +77,9 @@ Every flow README must include these sections, in this order:
 
 Use our examples as a reference for tone and structure.
 
-### 5. Scrub your flow.json
+### 5. Scrub your workflow.json
 
-Before submitting, verify your `flow.json` contains no:
+Before submitting, verify your `workflowflow.json` contains no:
 
 - API keys, tokens, or credentials of any kind
 - Real personal data (names, addresses, NHS numbers, case references, etc.)
@@ -95,7 +98,7 @@ Complete the PR template in full. Incomplete PRs will be returned without review
 
 ## Improving existing flows
 
-PRs that improve existing flows are very welcome. This includes better prompts, updated Flowise compatibility, improved documentation, and additional test cases.
+PRs that improve existing flows are very welcome. This includes better prompts, updated compatibility, improved documentation, and additional test cases.
 
 Update `CHANGELOG.md` and bump the version in `manifest.json` with any substantive change.
 
