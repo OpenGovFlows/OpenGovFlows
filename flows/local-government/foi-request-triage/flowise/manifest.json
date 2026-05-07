@@ -1,0 +1,109 @@
+{
+  "id": "foi-request-triage",
+  "name": "FOI Request Triage",
+  "version": "1.0.0",
+  "status": "experimental",
+  "description": "Triages incoming Freedom of Information (FOIA) and Environmental Information Regulations (EIR) requests. Validates the request, classifies the regulatory regime, extracts and structures what is being asked, routes to the responsible service area, flags potential exemptions, and produces a triage report and draft acknowledgement email for the FOI coordinator.",
+
+  "platform": "flowise",
+  "platform_version": {
+    "min_version": "3.0.0",
+    "tested_version": "3.0.5"
+  },
+  "workflow_file": "workflow.json",
+
+  "sector": ["local-gov", "central-gov", "nhs"],
+  "use_case_category": "citizen-requests",
+  "tags": [
+    "foi",
+    "freedom-of-information",
+    "eir",
+    "environmental-information-regulations",
+    "triage",
+    "legal",
+    "compliance",
+    "information-governance",
+    "ico",
+    "foia-2000",
+    "acknowledgement",
+    "routing",
+    "exemptions"
+  ],
+
+  "requirements": {
+    "llm": {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "notes": "Tested on gpt-4o-mini across all four agent nodes. gpt-4o will produce higher quality exemption reasoning and is recommended for production use, particularly for the Exemption Flagger and Report Assembler nodes."
+    },
+    "environment_variables": [
+      {
+        "key": "OPENAI_API_KEY",
+        "required": true,
+        "description": "Your OpenAI API key. Set under Credentials in Flowise and assign to each of the four agent nodes."
+      }
+    ]
+  },
+
+  "inputs": [
+    {
+      "name": "request_text",
+      "type": "text",
+      "description": "The full text of the FOI or EIR request. Paste the body of the email or letter as received. Include the date received and requester name/email if available.",
+      "required": true
+    },
+    {
+      "name": "council_name",
+      "type": "text",
+      "description": "The name of the public authority. Set as a Flow State value on the Start node — defaults to YOUR_COUNCIL_NAME. Must be updated before deploying. Used in the draft acknowledgement email.",
+      "required": false
+    },
+    {
+      "name": "foi_team_email",
+      "type": "text",
+      "description": "The FOI team's contact email address. Set as a Flow State value on the Start node. Defaults to foi@yourcouncil.gov.uk.",
+      "required": false
+    },
+    {
+      "name": "received_date",
+      "type": "text",
+      "description": "The date the request was received. Set as a Flow State value on the Start node, or include in the pasted request text. Designed for future use.",
+      "required": false
+    }
+  ],
+
+  "outputs": [
+    {
+      "name": "triage_report",
+      "type": "text",
+      "description": "A structured internal triage report for the FOI coordinator covering: regulatory regime (FOIA or EIR), plain-English request summary, numbered list of distinct information requests, service area routing, complexity rating, political sensitivity flag, response deadline, early flags (vexatious, cost limit, repeat, round-robin), and potential exemptions to consider."
+    },
+    {
+      "name": "acknowledgement_email",
+      "type": "text",
+      "description": "A draft acknowledgement email for the requester. Pre-populated with a reference number placeholder and response deadline. Must be reviewed by the FOI coordinator before sending — do not send automatically."
+    },
+    {
+      "name": "out_of_scope_response",
+      "type": "text",
+      "description": "If the input is not a valid FOI or EIR request, the flow returns a clear explanation of what was received, why it is out of scope, and what the coordinator should do with it instead."
+    }
+  ],
+
+  "governance": {
+    "human_review_required": true,
+    "human_review_notes": "A trained FOI coordinator must review all outputs before acting. Specifically: (1) verify the regulatory regime classification — FOIA vs EIR misclassification is a compliance failure; (2) confirm service area routing before forwarding the request; (3) assess all exemption flags — the flow flags possibilities only, it does not determine whether exemptions apply; (4) review and correct the draft acknowledgement, insert the correct reference number, and verify the deadline date against the current UK bank holiday calendar before sending; (5) Section 14 (vexatious) and Section 12 (cost limit) flags require officer judgment — do not act on AI flags alone.",
+    "data_sensitivity": "medium",
+    "data_notes": "FOI requests typically contain the requester's name and email address. The subject matter may reference personal data about third parties. Users should not paste requests containing special category personal data without consulting their DPO. Ephemeral memory is enabled — no data persists beyond the active session.",
+    "risk_level": "medium",
+    "iso_42001_aligned": true
+  },
+
+  "integration_pattern": {
+    "input_method": "manual_paste",
+    "production_recommendation": "email_trigger",
+    "notes": "For production deployment, an email trigger (n8n, Power Automate, or similar) should monitor the FOI inbox and pass incoming requests to the Flowise API endpoint automatically. A companion n8n workflow is planned for a future release."
+  },
+
+  "licence": "MIT"
+}
