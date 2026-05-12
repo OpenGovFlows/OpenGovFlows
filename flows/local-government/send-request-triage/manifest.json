@@ -1,0 +1,120 @@
+{
+  "id": "send-request-triage",
+  "name": "SEND Request Triage",
+  "version": "1.0.0",
+  "status": "experimental",
+  "description": "Triages incoming contacts to a local authority SEND service inbox. Classifies the contact type from a 12-type taxonomy, extracts key identifiers, identifies applicable statutory deadlines and clocks, checks seven escalation triggers, and produces a structured triage note and draft acknowledgement for the SEND coordinator to review before action.",
+
+  "platform": "flowise",
+  "platform_version": {
+    "min_version": "3.0.0",
+    "tested_version": "3.0.5"
+  },
+  "workflow_file": "workflow.json",
+
+  "sector": ["local-gov"],
+  "use_case_category": "casework",
+  "tags": [
+    "send",
+    "special-educational-needs",
+    "ehc-plan",
+    "ehc-needs-assessment",
+    "annual-review",
+    "children-and-families-act-2014",
+    "send-code-of-practice",
+    "triage",
+    "statutory-compliance",
+    "childrens-services",
+    "sendist",
+    "transitions",
+    "safeguarding"
+  ],
+
+  "requirements": {
+    "llm": {
+      "provider": "[SPEAK TO YOUR DPO]",
+      "model": "[SPEAK TO YOUR DPO]",
+      "notes": "Amazon Bedrock is the recommended provider for production deployments. This flow processes special category personal data under UK GDPR Article 9 (children's health, educational, and care information). Bedrock provides data residency controls and enterprise DPAs suitable for UK public sector. For development and testing only, OpenAI gpt-4o-mini can be substituted — do not use OpenAI in production with real case data without DPO sign-off and a reviewed data processing agreement covering special category data."
+    },
+    "environment_variables": [
+      {
+        "key": "[SPEAK TO YOUR DPO]",
+        "required": true,
+        "description": "[SPEAK TO YOUR DPO]"
+      }
+    ]
+  },
+
+  "inputs": [
+    {
+      "name": "contact_text",
+      "type": "text",
+      "description": "The full text of the incoming contact. Paste the body of the email or letter as received. Include the date received and the sender's name and role where available.",
+      "required": true
+    },
+    {
+      "name": "council_name",
+      "type": "text",
+      "description": "The name of the local authority. Set as a Flow State value on the Start node — defaults to YOUR_COUNCIL_NAME. Must be updated before deploying. Appears in draft acknowledgements.",
+      "required": false
+    },
+    {
+      "name": "send_team_email",
+      "type": "text",
+      "description": "The SEND team's contact email address. Set as a Flow State value on the Start node. Included in draft acknowledgements.",
+      "required": false
+    },
+    {
+      "name": "send_team_phone",
+      "type": "text",
+      "description": "The SEND team's contact phone number. Set as a Flow State value on the Start node. Optional — included in acknowledgements if provided.",
+      "required": false
+    },
+    {
+      "name": "received_date",
+      "type": "text",
+      "description": "The date the contact was received. Set as a Flow State value on the Start node, or include in the pasted contact text. Used to calculate statutory deadlines — if not provided, the flow uses the date stated in the contact text.",
+      "required": false
+    }
+  ],
+
+  "outputs": [
+    {
+      "name": "triage_note",
+      "type": "text",
+      "description": "A structured internal triage note for the SEND coordinator covering: contact type, urgency rating, child and sender identifiers, plain-English summary, statutory clock and deadline, deadline risk assessment, seven escalation flags, routing recommendation, information gaps, data handling note, and AI disclaimer."
+    },
+    {
+      "name": "draft_acknowledgement",
+      "type": "text",
+      "description": "A draft acknowledgement for the family or sender. Tone adapts to contact type — warm plain English for family contacts, formal for school and professional contacts. Statutory timeline stated in general terms for statutory contact types. Must be reviewed by the coordinator before sending."
+    },
+    {
+      "name": "out_of_scope_response",
+      "type": "text",
+      "description": "Returned when the input is not a valid SEND contact. Structured output covering what was received, why it is out of scope, and where to route it."
+    },
+    {
+      "name": "safeguarding_referral",
+      "type": "text",
+      "description": "Returned when the contact contains a specific and credible indication of immediate risk to a child's safety or welfare. Instructs the coordinator to refer immediately to the MASH duty team. All other processing stops — no triage note or acknowledgement is produced."
+    }
+  ],
+
+  "governance": {
+    "human_review_required": true,
+    "human_review_notes": "A trained SEND coordinator must review all outputs before any action is taken. Key checks: (1) verify contact type classification — misclassifying a statutory request as a general enquiry may cause the authority to miss a statutory clock with legal consequences under the Children and Families Act 2014; (2) confirm the statutory clock start date and calculate the exact deadline against the case management system — the flow's deadline calculations are indicative only and do not account for bank holidays or school holidays; (3) for transfer-of-plan contacts, confirm the actual date the child moved into the area — the flow uses the contact date as a proxy when the move date is not stated, which will underestimate elapsed time; (4) check child records in the case management system before acting — the flow has no access to live case data; (5) review and correct the draft acknowledgement before sending — do not automate dispatch; (6) any escalation flag must be reviewed with the SEND Manager before assigning to a coordinator's caseload; (7) if SAFEGUARDING_REFERRAL is returned, refer to the MASH immediately and do not continue with SEND triage.",
+    "data_sensitivity": "high",
+    "data_notes": "SEND contacts routinely contain special category personal data under UK GDPR Article 9, including health diagnoses, educational psychology assessments, and social care involvement relating to children. A Data Protection Impact Assessment (DPIA) is likely required before deploying this flow in a live environment. Users must not paste content containing special category data unless a DPIA has been completed and an appropriate data processing agreement is in place with the LLM provider. Amazon Bedrock is recommended for production for this reason. Ephemeral memory is enabled — no data persists beyond the active session.",
+    "risk_level": "medium",
+    "iso_42001_aligned": true
+  },
+
+  "integration_pattern": {
+    "input_method": "manual_paste",
+    "production_recommendation": "email_trigger",
+    "notes": "For production deployment, an email trigger (n8n, Power Automate, or similar) should monitor the SEND team inbox and pass incoming contacts to the Flowise API endpoint automatically. Data in transit must be handled in accordance with your organisation's data processing agreements, particularly given the special category nature of SEND case data."
+  },
+
+  "licence": "MIT"
+}
