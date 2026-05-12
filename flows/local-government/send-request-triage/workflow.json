@@ -1,0 +1,1808 @@
+{
+  "nodes": [
+    {
+      "id": "startAgentflow_0",
+      "type": "agentFlow",
+      "position": {
+        "x": -179,
+        "y": 67
+      },
+      "data": {
+        "id": "startAgentflow_0",
+        "label": "Start",
+        "version": 1.1,
+        "name": "startAgentflow",
+        "type": "Start",
+        "color": "#7EE787",
+        "hideInput": true,
+        "baseClasses": [
+          "Start"
+        ],
+        "category": "Agent Flows",
+        "description": "Starting point of the agentflow",
+        "inputParams": [
+          {
+            "label": "Input Type",
+            "name": "startInputType",
+            "type": "options",
+            "options": [
+              {
+                "label": "Chat Input",
+                "name": "chatInput",
+                "description": "Start the conversation with chat input"
+              },
+              {
+                "label": "Form Input",
+                "name": "formInput",
+                "description": "Start the workflow with form inputs"
+              }
+            ],
+            "default": "chatInput",
+            "id": "startAgentflow_0-input-startInputType-options",
+            "display": true
+          },
+          {
+            "label": "Form Title",
+            "name": "formTitle",
+            "type": "string",
+            "placeholder": "Please Fill Out The Form",
+            "show": {
+              "startInputType": "formInput"
+            },
+            "id": "startAgentflow_0-input-formTitle-string",
+            "display": false
+          },
+          {
+            "label": "Form Description",
+            "name": "formDescription",
+            "type": "string",
+            "placeholder": "Complete all fields below to continue",
+            "show": {
+              "startInputType": "formInput"
+            },
+            "id": "startAgentflow_0-input-formDescription-string",
+            "display": false
+          },
+          {
+            "label": "Form Input Types",
+            "name": "formInputTypes",
+            "description": "Specify the type of form input",
+            "type": "array",
+            "show": {
+              "startInputType": "formInput"
+            },
+            "array": [
+              {
+                "label": "Type",
+                "name": "type",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "String",
+                    "name": "string"
+                  },
+                  {
+                    "label": "Number",
+                    "name": "number"
+                  },
+                  {
+                    "label": "Boolean",
+                    "name": "boolean"
+                  },
+                  {
+                    "label": "Options",
+                    "name": "options"
+                  }
+                ],
+                "default": "string"
+              },
+              {
+                "label": "Label",
+                "name": "label",
+                "type": "string",
+                "placeholder": "Label for the input"
+              },
+              {
+                "label": "Variable Name",
+                "name": "name",
+                "type": "string",
+                "placeholder": "Variable name for the input (must be camel case)",
+                "description": "Variable name must be camel case. For example: firstName, lastName, etc."
+              },
+              {
+                "label": "Add Options",
+                "name": "addOptions",
+                "type": "array",
+                "show": {
+                  "formInputTypes[$index].type": "options"
+                },
+                "array": [
+                  {
+                    "label": "Option",
+                    "name": "option",
+                    "type": "string"
+                  }
+                ]
+              }
+            ],
+            "id": "startAgentflow_0-input-formInputTypes-array",
+            "display": false
+          },
+          {
+            "label": "Ephemeral Memory",
+            "name": "startEphemeralMemory",
+            "type": "boolean",
+            "description": "Start fresh for every execution without past chat history",
+            "optional": true,
+            "id": "startAgentflow_0-input-startEphemeralMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Flow State",
+            "name": "startState",
+            "description": "Runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "string",
+                "placeholder": "Foo"
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "placeholder": "Bar",
+                "optional": true
+              }
+            ],
+            "id": "startAgentflow_0-input-startState-array",
+            "display": true
+          },
+          {
+            "label": "Persist State",
+            "name": "startPersistState",
+            "type": "boolean",
+            "description": "Persist the state in the same session",
+            "optional": true,
+            "id": "startAgentflow_0-input-startPersistState-boolean",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "startInputType": "chatInput",
+          "startEphemeralMemory": true,
+          "startState": [
+            {
+              "key": "council_name",
+              "value": "YOUR_COUNCIL_NAME"
+            },
+            {
+              "key": "send_team_email",
+              "value": "send@yourcouncil.gov.uk"
+            },
+            {
+              "key": "send_team_phone",
+              "value": ""
+            },
+            {
+              "key": "received_date",
+              "value": ""
+            }
+          ],
+          "startPersistState": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "startAgentflow_0-output-startAgentflow",
+            "label": "Start",
+            "name": "startAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 103,
+      "height": 66,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -179,
+        "y": 67
+      },
+      "dragging": false
+    },
+    {
+      "id": "agentAgentflow_0",
+      "position": {
+        "x": 22.5,
+        "y": 75.25
+      },
+      "data": {
+        "id": "agentAgentflow_0",
+        "label": "Gate Check",
+        "version": 2,
+        "name": "agentAgentflow",
+        "type": "Agent",
+        "color": "#4DD0E1",
+        "baseClasses": [
+          "Agent"
+        ],
+        "category": "Agent Flows",
+        "description": "Dynamically choose and utilize tools during runtime, enabling multi-step reasoning",
+        "inputParams": [
+          {
+            "label": "Model",
+            "name": "agentModel",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "loadConfig": true,
+            "id": "agentAgentflow_0-input-agentModel-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Messages",
+            "name": "agentMessages",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Role",
+                "name": "role",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "System",
+                    "name": "system"
+                  },
+                  {
+                    "label": "Assistant",
+                    "name": "assistant"
+                  },
+                  {
+                    "label": "Developer",
+                    "name": "developer"
+                  },
+                  {
+                    "label": "User",
+                    "name": "user"
+                  }
+                ]
+              },
+              {
+                "label": "Content",
+                "name": "content",
+                "type": "string",
+                "acceptVariable": true,
+                "generateInstruction": true,
+                "rows": 4
+              }
+            ],
+            "id": "agentAgentflow_0-input-agentMessages-array",
+            "display": true
+          },
+          {
+            "label": "OpenAI Built-in Tools",
+            "name": "agentToolsBuiltInOpenAI",
+            "type": "multiOptions",
+            "optional": true,
+            "options": [
+              {
+                "label": "Web Search",
+                "name": "web_search_preview",
+                "description": "Search the web for the latest information"
+              },
+              {
+                "label": "Code Interpreter",
+                "name": "code_interpreter",
+                "description": "Write and run Python code in a sandboxed environment"
+              },
+              {
+                "label": "Image Generation",
+                "name": "image_generation",
+                "description": "Generate images based on a text prompt"
+              }
+            ],
+            "show": {
+              "agentModel": "chatOpenAI"
+            },
+            "id": "agentAgentflow_0-input-agentToolsBuiltInOpenAI-multiOptions",
+            "display": true
+          },
+          {
+            "label": "Tools",
+            "name": "agentTools",
+            "type": "array",
+            "optional": true,
+            "array": [
+              {
+                "label": "Tool",
+                "name": "agentSelectedTool",
+                "type": "asyncOptions",
+                "loadMethod": "listTools",
+                "loadConfig": true
+              },
+              {
+                "label": "Require Human Input",
+                "name": "agentSelectedToolRequiresHumanInput",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "id": "agentAgentflow_0-input-agentTools-array",
+            "display": true
+          },
+          {
+            "label": "Knowledge (Document Stores)",
+            "name": "agentKnowledgeDocumentStores",
+            "type": "array",
+            "description": "Give your agent context about different document sources. Document stores must be upserted in advance.",
+            "array": [
+              {
+                "label": "Document Store",
+                "name": "documentStore",
+                "type": "asyncOptions",
+                "loadMethod": "listStores"
+              },
+              {
+                "label": "Describe Knowledge",
+                "name": "docStoreDescription",
+                "type": "string",
+                "generateDocStoreDescription": true,
+                "placeholder": "Describe what the knowledge base is about, this is useful for the AI to know when and how to search for correct information",
+                "rows": 4
+              },
+              {
+                "label": "Return Source Documents",
+                "name": "returnSourceDocuments",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "optional": true,
+            "id": "agentAgentflow_0-input-agentKnowledgeDocumentStores-array",
+            "display": true
+          },
+          {
+            "label": "Knowledge (Vector Embeddings)",
+            "name": "agentKnowledgeVSEmbeddings",
+            "type": "array",
+            "description": "Give your agent context about different document sources from existing vector stores and embeddings",
+            "array": [
+              {
+                "label": "Vector Store",
+                "name": "vectorStore",
+                "type": "asyncOptions",
+                "loadMethod": "listVectorStores",
+                "loadConfig": true
+              },
+              {
+                "label": "Embedding Model",
+                "name": "embeddingModel",
+                "type": "asyncOptions",
+                "loadMethod": "listEmbeddings",
+                "loadConfig": true
+              },
+              {
+                "label": "Knowledge Name",
+                "name": "knowledgeName",
+                "type": "string",
+                "placeholder": "A short name for the knowledge base, this is useful for the AI to know when and how to search for correct information"
+              },
+              {
+                "label": "Describe Knowledge",
+                "name": "knowledgeDescription",
+                "type": "string",
+                "placeholder": "Describe what the knowledge base is about, this is useful for the AI to know when and how to search for correct information",
+                "rows": 4
+              },
+              {
+                "label": "Return Source Documents",
+                "name": "returnSourceDocuments",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "optional": true,
+            "id": "agentAgentflow_0-input-agentKnowledgeVSEmbeddings-array",
+            "display": true
+          },
+          {
+            "label": "Enable Memory",
+            "name": "agentEnableMemory",
+            "type": "boolean",
+            "description": "Enable memory for the conversation thread",
+            "default": true,
+            "optional": true,
+            "id": "agentAgentflow_0-input-agentEnableMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Memory Type",
+            "name": "agentMemoryType",
+            "type": "options",
+            "options": [
+              {
+                "label": "All Messages",
+                "name": "allMessages",
+                "description": "Retrieve all messages from the conversation"
+              },
+              {
+                "label": "Window Size",
+                "name": "windowSize",
+                "description": "Uses a fixed window size to surface the last N messages"
+              },
+              {
+                "label": "Conversation Summary",
+                "name": "conversationSummary",
+                "description": "Summarizes the whole conversation"
+              },
+              {
+                "label": "Conversation Summary Buffer",
+                "name": "conversationSummaryBuffer",
+                "description": "Summarize conversations once token limit is reached. Default to 2000"
+              }
+            ],
+            "optional": true,
+            "default": "allMessages",
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_0-input-agentMemoryType-options",
+            "display": true
+          },
+          {
+            "label": "Window Size",
+            "name": "agentMemoryWindowSize",
+            "type": "number",
+            "default": "20",
+            "description": "Uses a fixed window size to surface the last N messages",
+            "show": {
+              "agentMemoryType": "windowSize"
+            },
+            "id": "agentAgentflow_0-input-agentMemoryWindowSize-number",
+            "display": false
+          },
+          {
+            "label": "Max Token Limit",
+            "name": "agentMemoryMaxTokenLimit",
+            "type": "number",
+            "default": "2000",
+            "description": "Summarize conversations once token limit is reached. Default to 2000",
+            "show": {
+              "agentMemoryType": "conversationSummaryBuffer"
+            },
+            "id": "agentAgentflow_0-input-agentMemoryMaxTokenLimit-number",
+            "display": false
+          },
+          {
+            "label": "Input Message",
+            "name": "agentUserMessage",
+            "type": "string",
+            "description": "Add an input message as user message at the end of the conversation",
+            "rows": 4,
+            "optional": true,
+            "acceptVariable": true,
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_0-input-agentUserMessage-string",
+            "display": true
+          },
+          {
+            "label": "Return Response As",
+            "name": "agentReturnResponseAs",
+            "type": "options",
+            "options": [
+              {
+                "label": "User Message",
+                "name": "userMessage"
+              },
+              {
+                "label": "Assistant Message",
+                "name": "assistantMessage"
+              }
+            ],
+            "default": "userMessage",
+            "id": "agentAgentflow_0-input-agentReturnResponseAs-options",
+            "display": true
+          },
+          {
+            "label": "Update Flow State",
+            "name": "agentUpdateState",
+            "description": "Update runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "asyncOptions",
+                "loadMethod": "listRuntimeStateKeys",
+                "freeSolo": true
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "acceptVariable": true,
+                "acceptNodeOutputAsVariable": true
+              }
+            ],
+            "id": "agentAgentflow_0-input-agentUpdateState-array",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "agentModel": "chatOpenAI",
+          "agentMessages": [
+            {
+              "role": "system",
+              "content": "<h1>Gate Check — System Prompt (v1.0.3)</h1><hr><p>You are the gate-check agent for a SEND (Special Educational Needs and Disabilities) request triage system used by UK local authority SEND teams. Your only job is to determine whether the input is a genuine SEND-related contact that belongs to the SEND service, and to perform an initial contact type classification.</p><p>This system is for SEND coordinators to triage incoming contacts. It is not a general-purpose assistant.</p><hr><h2>Step 1 — Safeguarding check</h2><p>Before anything else, assess whether the contact contains a safeguarding concern.</p><p>A safeguarding concern means the contact contains a <strong>specific and credible indication of immediate risk to a child's physical safety or welfare</strong> — for example:</p><ul><li><p>An allegation that a child is being abused, harmed, or neglected by an adult</p></li><li><p>A report that a child is in immediate danger</p></li><li><p>Disclosure of domestic violence or abuse in the home affecting a child</p></li><li><p>A child reporting that someone is hurting them</p></li></ul><p><strong>The following are NOT safeguarding concerns — do not output SAFEGUARDING_REFERRAL for these:</strong></p><ul><li><p>A parent expressing worry, stress, or urgency about their child's education or SEND provision</p></li><li><p>A child at risk of school exclusion or facing a difficult school situation</p></li><li><p>A parent reporting that the school is not following an EHC plan</p></li><li><p>A parent saying they are \"very worried\" or contacting \"as a matter of urgency\"</p></li><li><p>A child with emotional or mental health needs (anxiety, ADHD, etc.) who is struggling</p></li><li><p>A family in distress about the SEND system or their child's support</p></li><li><p>Any contact that is clearly about SEND provision, EHC plans, or educational difficulties — however urgently worded</p></li></ul><p>Apply a high threshold. Only output SAFEGUARDING_REFERRAL when the contact contains a specific and credible indication of immediate risk to a child's physical safety or welfare. Parental concern and distress about SEND provision, however strongly expressed, does not meet this threshold.</p><p>If the contact IS a safeguarding concern, respond with exactly this format and nothing else:</p><p>SAFEGUARDING_REFERRAL</p><p><strong>This contact contains a possible safeguarding concern and must not be processed through the SEND triage system.</strong></p><p><strong>Action required:</strong> Refer immediately to your MASH (Multi-Agency Safeguarding Hub) duty team or on-call social worker. Do not delay. Do not continue with SEND triage.</p><p><strong>What was received:</strong> [brief neutral description of the content — do not reproduce details]</p><hr><h2>Step 2 — Is this a SEND-related contact?</h2><p>Ask yourself: does this contact relate to special educational needs and disabilities provision, EHC plans, or SEND-related education, health, or care support for a child or young person aged 0–25?</p><p><strong>Contacts that ARE in scope — proceed to Step 3:</strong></p><ul><li><p>Requests for EHC needs assessments</p></li><li><p>Notifications or correspondence relating to EHC plan annual reviews</p></li><li><p>Requests to amend, transfer, or cease an existing EHC plan</p></li><li><p>Notifications of a child with an EHC plan transferring into the local authority area</p></li><li><p>Requests relating to personal budgets under an EHC plan</p></li><li><p>Mediation referrals or SEND tribunal correspondence</p></li><li><p>General enquiries about SEND provision, the EHC process, or what support is available</p></li><li><p>Complaints specifically about SEND provision or the EHC process</p></li><li><p>School or professional correspondence about a child's SEND needs</p></li><li><p>Contacts that are unclear or ambiguous but reference SEND, EHC, SEN, special educational needs, or disability provision for a child</p></li></ul><p><strong>The following are always in scope, regardless of tone:</strong></p><ul><li><p>A parent contacting the SEND team about a child who has an EHC plan — even if the contact is primarily emotional or expresses distress</p></li><li><p>A parent raising concerns that a school is not following or implementing an EHC plan</p></li><li><p>A parent asking what the council can do about a school exclusion where the child has an EHC plan</p></li><li><p>A parent asking about their rights under the SEND system</p></li><li><p>Any contact that mentions an EHC plan, SEND provision, or a child's special educational needs — however it is worded</p></li></ul><p>Do not classify a contact as OUT_OF_SCOPE because it is emotionally worded, urgent in tone, or primarily expresses concern rather than making a formal request. A parent writing to the SEND team about their child's EHC plan is always in scope.</p><p><strong>Contacts that are NOT in scope — output OUT_OF_SCOPE:</strong></p><ul><li><p>General school admissions queries with no SEND component</p></li><li><p>Adult social care contacts (unless the young person is in the 18–25 transition period and the contact explicitly references SEND or an EHC plan)</p></li><li><p>General complaints about schools unrelated to SEND provision</p></li><li><p>Housing, benefits, or other non-SEND contacts misdirected to the SEND team</p></li><li><p>Spam or clearly unrelated content</p></li></ul><p>If the input is NOT in scope, you must respond with exactly this structure and nothing else. Do not paraphrase. Do not write a paragraph. Use exactly these labels:</p><p>OUT_OF_SCOPE</p><p><strong>What was received:</strong> [brief description of what the input actually is]</p><p><strong>Why it is out of scope:</strong> [one sentence]</p><p><strong>Suggested action:</strong> [where to route this — e.g. school admissions team, adult social care, general complaints team, the school directly, etc.]</p><hr><h2>Step 3 — Initial contact type classification</h2><p>If the contact IS in scope, classify it into one of the following types. Choose the single best-fit type. If the contact spans multiple types, choose the primary one and note the others.</p><ul><li><p><strong>ehc-needs-assessment-request</strong> — A written request asking the local authority to carry out an EHC needs assessment. Statutory under s.36 Children and Families Act 2014. Date of receipt starts a 6-week statutory clock for the authority to decide whether to assess.</p></li><li><p><strong>annual-review-notification</strong> — A school or setting notifying the local authority that an annual review has been scheduled or completed.</p></li><li><p><strong>annual-review-outcome</strong> — Post-review paperwork from a school or setting following an annual review meeting. Date of receipt starts a 4-week statutory clock for the authority to issue a decision notice.</p></li><li><p><strong>ehc-plan-amendment-request</strong> — A request to amend an existing EHC plan outside the annual review cycle.</p></li><li><p><strong>transfer-of-plan</strong> — Notification that a child with an existing EHC plan is moving into the local authority area. The authority has 15 weeks to transfer and review the plan.</p></li><li><p><strong>ceasing-ehc-plan-request</strong> — A request or notification relating to ceasing an EHC plan. Requires specific statutory grounds.</p></li><li><p><strong>personal-budget-request</strong> — A request for a personal budget as part of an EHC plan. Statutory right under s.49 Children and Families Act 2014.</p></li><li><p><strong>mediation-referral</strong> — A referral for mediation or notification of an appeal to the SEND Tribunal (SENDIST). Strict statutory timelines apply.</p></li><li><p><strong>general-enquiry</strong> — A general information request about SEND provision, the EHC process, or available support. No statutory clock.</p></li><li><p><strong>complaint</strong> — A complaint specifically about SEND provision, the EHC process, or the local authority's handling of a SEND case.</p></li><li><p><strong>professional-advice-submission</strong> — Advice, reports, or assessment information submitted by a school, health professional, or other agency as part of an ongoing EHC needs assessment or review.</p></li><li><p><strong>out-of-area-placement-query</strong> — A query or notification about a child placed by another local authority in a setting within this LA's area, or vice versa.</p></li></ul><hr><h2>Output format</h2><p>If the contact IS in scope, respond in this exact structure and nothing else:</p><p>GATE_CHECK_RESULT</p><p><strong>Contact type:</strong> [type from the taxonomy above]</p><p><strong>Confidence:</strong> [High | Medium | Low]</p><p><strong>Classification reason:</strong> [one sentence explaining why this contact type was chosen]</p><p><strong>Secondary contact types:</strong> [list any other types present, or 'None']</p><p><strong>Statutory contact:</strong> [Yes — [legislation reference and clock] | No]</p><p><strong>Gate check verdict:</strong> VALID — proceed to analysis</p><p>Do not add commentary outside these formats. Do not make any decisions about the child or their needs. Do not provide advice to the family or school.</p>"
+            }
+          ],
+          "agentToolsBuiltInOpenAI": "",
+          "agentTools": "",
+          "agentKnowledgeDocumentStores": "",
+          "agentKnowledgeVSEmbeddings": "",
+          "agentEnableMemory": true,
+          "agentMemoryType": "allMessages",
+          "agentUserMessage": "",
+          "agentReturnResponseAs": "assistantMessage",
+          "agentUpdateState": [],
+          "agentModelConfig": {
+            "cache": "",
+            "modelName": "gpt-4o-mini",
+            "temperature": "0.1",
+            "streaming": true,
+            "maxTokens": "",
+            "topP": "",
+            "frequencyPenalty": "",
+            "presencePenalty": "",
+            "timeout": "",
+            "strictToolCalling": "",
+            "stopSequence": "",
+            "basepath": "",
+            "proxyUrl": "",
+            "baseOptions": "",
+            "allowImageUploads": "",
+            "imageResolution": "low",
+            "reasoning": "",
+            "reasoningEffort": "",
+            "reasoningSummary": "",
+            "agentModel": "chatOpenAI"
+          }
+        },
+        "outputAnchors": [
+          {
+            "id": "agentAgentflow_0-output-agentAgentflow",
+            "label": "Agent",
+            "name": "agentAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "type": "agentFlow",
+      "width": 175,
+      "height": 72,
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": 22.5,
+        "y": 75.25
+      }
+    },
+    {
+      "id": "agentAgentflow_1",
+      "position": {
+        "x": 295.5,
+        "y": 73.75
+      },
+      "data": {
+        "id": "agentAgentflow_1",
+        "label": "Request Classifier",
+        "version": 2,
+        "name": "agentAgentflow",
+        "type": "Agent",
+        "color": "#4DD0E1",
+        "baseClasses": [
+          "Agent"
+        ],
+        "category": "Agent Flows",
+        "description": "Dynamically choose and utilize tools during runtime, enabling multi-step reasoning",
+        "inputParams": [
+          {
+            "label": "Model",
+            "name": "agentModel",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "loadConfig": true,
+            "id": "agentAgentflow_1-input-agentModel-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Messages",
+            "name": "agentMessages",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Role",
+                "name": "role",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "System",
+                    "name": "system"
+                  },
+                  {
+                    "label": "Assistant",
+                    "name": "assistant"
+                  },
+                  {
+                    "label": "Developer",
+                    "name": "developer"
+                  },
+                  {
+                    "label": "User",
+                    "name": "user"
+                  }
+                ]
+              },
+              {
+                "label": "Content",
+                "name": "content",
+                "type": "string",
+                "acceptVariable": true,
+                "generateInstruction": true,
+                "rows": 4
+              }
+            ],
+            "id": "agentAgentflow_1-input-agentMessages-array",
+            "display": true
+          },
+          {
+            "label": "OpenAI Built-in Tools",
+            "name": "agentToolsBuiltInOpenAI",
+            "type": "multiOptions",
+            "optional": true,
+            "options": [
+              {
+                "label": "Web Search",
+                "name": "web_search_preview",
+                "description": "Search the web for the latest information"
+              },
+              {
+                "label": "Code Interpreter",
+                "name": "code_interpreter",
+                "description": "Write and run Python code in a sandboxed environment"
+              },
+              {
+                "label": "Image Generation",
+                "name": "image_generation",
+                "description": "Generate images based on a text prompt"
+              }
+            ],
+            "show": {
+              "agentModel": "chatOpenAI"
+            },
+            "id": "agentAgentflow_1-input-agentToolsBuiltInOpenAI-multiOptions",
+            "display": true
+          },
+          {
+            "label": "Tools",
+            "name": "agentTools",
+            "type": "array",
+            "optional": true,
+            "array": [
+              {
+                "label": "Tool",
+                "name": "agentSelectedTool",
+                "type": "asyncOptions",
+                "loadMethod": "listTools",
+                "loadConfig": true
+              },
+              {
+                "label": "Require Human Input",
+                "name": "agentSelectedToolRequiresHumanInput",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "id": "agentAgentflow_1-input-agentTools-array",
+            "display": true
+          },
+          {
+            "label": "Knowledge (Document Stores)",
+            "name": "agentKnowledgeDocumentStores",
+            "type": "array",
+            "description": "Give your agent context about different document sources. Document stores must be upserted in advance.",
+            "array": [
+              {
+                "label": "Document Store",
+                "name": "documentStore",
+                "type": "asyncOptions",
+                "loadMethod": "listStores"
+              },
+              {
+                "label": "Describe Knowledge",
+                "name": "docStoreDescription",
+                "type": "string",
+                "generateDocStoreDescription": true,
+                "placeholder": "Describe what the knowledge base is about, this is useful for the AI to know when and how to search for correct information",
+                "rows": 4
+              },
+              {
+                "label": "Return Source Documents",
+                "name": "returnSourceDocuments",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "optional": true,
+            "id": "agentAgentflow_1-input-agentKnowledgeDocumentStores-array",
+            "display": true
+          },
+          {
+            "label": "Knowledge (Vector Embeddings)",
+            "name": "agentKnowledgeVSEmbeddings",
+            "type": "array",
+            "description": "Give your agent context about different document sources from existing vector stores and embeddings",
+            "array": [
+              {
+                "label": "Vector Store",
+                "name": "vectorStore",
+                "type": "asyncOptions",
+                "loadMethod": "listVectorStores",
+                "loadConfig": true
+              },
+              {
+                "label": "Embedding Model",
+                "name": "embeddingModel",
+                "type": "asyncOptions",
+                "loadMethod": "listEmbeddings",
+                "loadConfig": true
+              },
+              {
+                "label": "Knowledge Name",
+                "name": "knowledgeName",
+                "type": "string",
+                "placeholder": "A short name for the knowledge base, this is useful for the AI to know when and how to search for correct information"
+              },
+              {
+                "label": "Describe Knowledge",
+                "name": "knowledgeDescription",
+                "type": "string",
+                "placeholder": "Describe what the knowledge base is about, this is useful for the AI to know when and how to search for correct information",
+                "rows": 4
+              },
+              {
+                "label": "Return Source Documents",
+                "name": "returnSourceDocuments",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "optional": true,
+            "id": "agentAgentflow_1-input-agentKnowledgeVSEmbeddings-array",
+            "display": true
+          },
+          {
+            "label": "Enable Memory",
+            "name": "agentEnableMemory",
+            "type": "boolean",
+            "description": "Enable memory for the conversation thread",
+            "default": true,
+            "optional": true,
+            "id": "agentAgentflow_1-input-agentEnableMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Memory Type",
+            "name": "agentMemoryType",
+            "type": "options",
+            "options": [
+              {
+                "label": "All Messages",
+                "name": "allMessages",
+                "description": "Retrieve all messages from the conversation"
+              },
+              {
+                "label": "Window Size",
+                "name": "windowSize",
+                "description": "Uses a fixed window size to surface the last N messages"
+              },
+              {
+                "label": "Conversation Summary",
+                "name": "conversationSummary",
+                "description": "Summarizes the whole conversation"
+              },
+              {
+                "label": "Conversation Summary Buffer",
+                "name": "conversationSummaryBuffer",
+                "description": "Summarize conversations once token limit is reached. Default to 2000"
+              }
+            ],
+            "optional": true,
+            "default": "allMessages",
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_1-input-agentMemoryType-options",
+            "display": true
+          },
+          {
+            "label": "Window Size",
+            "name": "agentMemoryWindowSize",
+            "type": "number",
+            "default": "20",
+            "description": "Uses a fixed window size to surface the last N messages",
+            "show": {
+              "agentMemoryType": "windowSize"
+            },
+            "id": "agentAgentflow_1-input-agentMemoryWindowSize-number",
+            "display": false
+          },
+          {
+            "label": "Max Token Limit",
+            "name": "agentMemoryMaxTokenLimit",
+            "type": "number",
+            "default": "2000",
+            "description": "Summarize conversations once token limit is reached. Default to 2000",
+            "show": {
+              "agentMemoryType": "conversationSummaryBuffer"
+            },
+            "id": "agentAgentflow_1-input-agentMemoryMaxTokenLimit-number",
+            "display": false
+          },
+          {
+            "label": "Input Message",
+            "name": "agentUserMessage",
+            "type": "string",
+            "description": "Add an input message as user message at the end of the conversation",
+            "rows": 4,
+            "optional": true,
+            "acceptVariable": true,
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_1-input-agentUserMessage-string",
+            "display": true
+          },
+          {
+            "label": "Return Response As",
+            "name": "agentReturnResponseAs",
+            "type": "options",
+            "options": [
+              {
+                "label": "User Message",
+                "name": "userMessage"
+              },
+              {
+                "label": "Assistant Message",
+                "name": "assistantMessage"
+              }
+            ],
+            "default": "userMessage",
+            "id": "agentAgentflow_1-input-agentReturnResponseAs-options",
+            "display": true
+          },
+          {
+            "label": "Update Flow State",
+            "name": "agentUpdateState",
+            "description": "Update runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "asyncOptions",
+                "loadMethod": "listRuntimeStateKeys",
+                "freeSolo": true
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "acceptVariable": true,
+                "acceptNodeOutputAsVariable": true
+              }
+            ],
+            "id": "agentAgentflow_1-input-agentUpdateState-array",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "agentModel": "chatOpenAI",
+          "agentMessages": [
+            {
+              "role": "system",
+              "content": "<h1>Request Classifier — System Prompt (v1.0.2)</h1><hr><p>You are the request classification agent for a SEND triage system used by UK local authority SEND teams. The gate-check agent has confirmed this is a valid SEND-related contact. Your job is to extract key identifiers, summarise what is needed, assess urgency, and identify any dates that may start or affect a statutory clock.</p><p>IMPORTANT: Check the Gate Check agent output — the first assistant message in the conversation history. If that message begins with the exact token OUT_OF_SCOPE or the exact token SAFEGUARDING_REFERRAL as its first word, do not proceed. Output exactly: SKIPPED — input was out of scope or a safeguarding referral at gate check. If the Gate Check output begins with GATE_CHECK_RESULT, proceed normally regardless of any other content in the conversation.</p><hr><h2>Your tasks</h2><h3>1. Plain-English summary</h3><p>Write 2–3 sentences summarising what has been received and what action is expected from the SEND team. Write as if briefing a SEND coordinator who has not read the contact. Be specific — mention the child's name and school if given, the contact type, and what needs to happen next.</p><h3>2. Key identifiers</h3><p>Extract the following where present. If not stated, record as 'Not provided'.</p><ul><li><p>Child's name</p></li><li><p>Child's date of birth</p></li><li><p>School or setting name</p></li><li><p>Year group</p></li><li><p>Current EHC plan status (if stated — e.g. has a plan, assessment in progress, no current plan)</p></li><li><p>Sender name and role (e.g. parent, SENCo, GP, educational psychologist)</p></li><li><p>Sender contact details (email, phone if provided)</p></li><li><p>Date of contact (as stated in the email or letter)</p></li></ul><h3>3. What is being requested or notified</h3><p>Describe in plain English what the sender wants the SEND team to do, or what they are informing the team about. If there are multiple distinct actions, list them numbered.</p><h3>4. Statutory clock assessment</h3><p>Based on the contact type identified by the gate-check agent, assess whether a statutory clock has started or is relevant.</p><p>Clock rules:</p><ul><li><p><strong>ehc-needs-assessment-request:</strong> Date of receipt starts a 6-week clock. Authority must decide whether to assess within 6 weeks (CFA 2014 s.36). State clock start date and 6-week deadline.</p></li><li><p><strong>annual-review-outcome:</strong> Date of receipt starts a 4-week clock. Authority must send a decision notice within 4 weeks (SEND CoP 9.196). State clock start date and 4-week deadline.</p></li><li><p><strong>transfer-of-plan:</strong> Authority has 15 weeks from the date the child moves into the area to transfer and review the plan (SEND CoP 9.157). If a transfer date is mentioned, calculate the 15-week deadline.</p></li><li><p><strong>mediation-referral:</strong> Note that strict timelines apply and flag for immediate escalation to SEND manager.</p></li><li><p><strong>annual-review-notification:</strong> No statutory clock starts on notification, but flag the proposed review date if given. The review must take place within 12 months of the plan being issued or last reviewed.</p></li><li><p><strong>All other types:</strong> State 'No statutory clock' but note any dates mentioned that may be relevant to service delivery.</p></li></ul><p>If no date of contact is provided, state: '[Date not provided — coordinator must confirm date of receipt and calculate deadline from that date]'.</p><p>Deadline calculations do not automatically account for bank holidays or school holidays. The coordinator must verify all deadlines.</p><h3>5. Urgency assessment</h3><p>Rate urgency: <strong>High</strong> | <strong>Medium</strong> | <strong>Standard</strong></p><p><strong>High</strong> — one or more of the following are present:</p><ul><li><p>Explicit mention of exclusion or risk of exclusion</p></li><li><p>Placement breakdown or the child is not currently attending school</p></li><li><p>The child has no current education placement (s.19 duty may apply)</p></li><li><p>SEND Tribunal appeal explicitly in progress or explicitly threatened</p></li><li><p>Young person is 17 or over with an unresolved EHC plan or transition plan</p></li><li><p>Statutory deadline is within 5 working days</p></li></ul><p><strong>Medium</strong> — one or more of the following are present, and no High criteria apply:</p><ul><li><p>Statutory clock has started but deadline is more than 5 working days away — this is the standard rating for routine statutory contacts (ehc-needs-assessment-request, annual-review-outcome, transfer-of-plan) where no other concern is present</p></li><li><p>Annual review is overdue or the review date is within 4 weeks</p></li><li><p>Transfer of plan received and child is starting at a new school imminently</p></li><li><p>Professional advice submitted that has a stated urgency or deadline</p></li><li><p>Family has explicitly stated they are in crisis or cannot cope</p></li></ul><p><strong>Standard</strong> — use for:</p><ul><li><p>General enquiries</p></li><li><p>Complaints (route to complaints process)</p></li><li><p>Professional advice submissions with no stated urgency</p></li><li><p>Annual review notifications where the review date is more than 4 weeks away</p></li><li><p>Any contact where no statutory clock is running and no High or Medium indicator is present</p></li></ul><p>Note: a parent requesting an EHC needs assessment and stating their child's needs are not being met is a routine statutory contact. Rate as <strong>Medium</strong> (statutory clock running) unless a High indicator is also present.</p><h3>6. Suggested routing</h3><p>Identify which team or role should handle this contact: SEND Coordinator (casework) | EHC Assessment Team | SEND Manager (escalation) | Complaints Team | SENDIST / Legal Team | Transition Team (young people 16–25) | Out-of-Area Placements Team</p><hr><h2>Output format</h2><p>REQUEST_CLASSIFICATION</p><p><strong>Summary:</strong> [2–3 sentence plain-English summary]</p><p><strong>Key identifiers:</strong></p><ul><li><p>Child's name: [value or 'Not provided']</p></li><li><p>Date of birth: [value or 'Not provided']</p></li><li><p>School / setting: [value or 'Not provided']</p></li><li><p>Year group: [value or 'Not provided']</p></li><li><p>EHC plan status: [value or 'Not provided']</p></li><li><p>Sender: [name, role]</p></li><li><p>Sender contact: [email / phone or 'Not provided']</p></li><li><p>Date of contact: [date or 'Not provided']</p></li></ul><p><strong>What is requested / notified:</strong> [numbered list]</p><p><strong>Statutory clock:</strong></p><ul><li><p>Clock applicable: [Yes — type | No]</p></li><li><p>Clock start date: [date or placeholder]</p></li><li><p>Statutory deadline: [date or placeholder]</p></li><li><p>Legislation / guidance reference: [e.g. CFA 2014 s.36 | SEND CoP 9.196 | N/A]</p></li></ul><p><strong>Urgency:</strong> [High | Medium | Standard]</p><p><strong>Urgency rationale:</strong> [one sentence — name the specific criterion that determined the rating]</p><p><strong>Suggested routing:</strong> [team or role]</p><p>Do not make any decisions about the child or their entitlement to support. Do not advise the family or school. Do not speculate about whether an EHC plan will be issued or whether assessment will proceed.</p>"
+            }
+          ],
+          "agentToolsBuiltInOpenAI": "",
+          "agentTools": "",
+          "agentKnowledgeDocumentStores": "",
+          "agentKnowledgeVSEmbeddings": "",
+          "agentEnableMemory": true,
+          "agentMemoryType": "allMessages",
+          "agentUserMessage": "",
+          "agentReturnResponseAs": "assistantMessage",
+          "agentUpdateState": "",
+          "agentModelConfig": {
+            "cache": "",
+            "modelName": "gpt-4o-mini",
+            "temperature": "0.1",
+            "streaming": true,
+            "maxTokens": "",
+            "topP": "",
+            "frequencyPenalty": "",
+            "presencePenalty": "",
+            "timeout": "",
+            "strictToolCalling": "",
+            "stopSequence": "",
+            "basepath": "",
+            "proxyUrl": "",
+            "baseOptions": "",
+            "allowImageUploads": "",
+            "imageResolution": "low",
+            "reasoning": "",
+            "reasoningEffort": "",
+            "reasoningSummary": "",
+            "agentModel": "chatOpenAI"
+          }
+        },
+        "outputAnchors": [
+          {
+            "id": "agentAgentflow_1-output-agentAgentflow",
+            "label": "Agent",
+            "name": "agentAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "type": "agentFlow",
+      "width": 190,
+      "height": 72,
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": 295.5,
+        "y": 73.75
+      }
+    },
+    {
+      "id": "agentAgentflow_2",
+      "position": {
+        "x": 621.5606602167722,
+        "y": 91.16352794764187
+      },
+      "data": {
+        "id": "agentAgentflow_2",
+        "label": "Compliance Checker",
+        "version": 2,
+        "name": "agentAgentflow",
+        "type": "Agent",
+        "color": "#4DD0E1",
+        "baseClasses": [
+          "Agent"
+        ],
+        "category": "Agent Flows",
+        "description": "Dynamically choose and utilize tools during runtime, enabling multi-step reasoning",
+        "inputParams": [
+          {
+            "label": "Model",
+            "name": "agentModel",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "loadConfig": true,
+            "id": "agentAgentflow_2-input-agentModel-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Messages",
+            "name": "agentMessages",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Role",
+                "name": "role",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "System",
+                    "name": "system"
+                  },
+                  {
+                    "label": "Assistant",
+                    "name": "assistant"
+                  },
+                  {
+                    "label": "Developer",
+                    "name": "developer"
+                  },
+                  {
+                    "label": "User",
+                    "name": "user"
+                  }
+                ]
+              },
+              {
+                "label": "Content",
+                "name": "content",
+                "type": "string",
+                "acceptVariable": true,
+                "generateInstruction": true,
+                "rows": 4
+              }
+            ],
+            "id": "agentAgentflow_2-input-agentMessages-array",
+            "display": true
+          },
+          {
+            "label": "OpenAI Built-in Tools",
+            "name": "agentToolsBuiltInOpenAI",
+            "type": "multiOptions",
+            "optional": true,
+            "options": [
+              {
+                "label": "Web Search",
+                "name": "web_search_preview",
+                "description": "Search the web for the latest information"
+              },
+              {
+                "label": "Code Interpreter",
+                "name": "code_interpreter",
+                "description": "Write and run Python code in a sandboxed environment"
+              },
+              {
+                "label": "Image Generation",
+                "name": "image_generation",
+                "description": "Generate images based on a text prompt"
+              }
+            ],
+            "show": {
+              "agentModel": "chatOpenAI"
+            },
+            "id": "agentAgentflow_2-input-agentToolsBuiltInOpenAI-multiOptions",
+            "display": true
+          },
+          {
+            "label": "Tools",
+            "name": "agentTools",
+            "type": "array",
+            "optional": true,
+            "array": [
+              {
+                "label": "Tool",
+                "name": "agentSelectedTool",
+                "type": "asyncOptions",
+                "loadMethod": "listTools",
+                "loadConfig": true
+              },
+              {
+                "label": "Require Human Input",
+                "name": "agentSelectedToolRequiresHumanInput",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "id": "agentAgentflow_2-input-agentTools-array",
+            "display": true
+          },
+          {
+            "label": "Knowledge (Document Stores)",
+            "name": "agentKnowledgeDocumentStores",
+            "type": "array",
+            "description": "Give your agent context about different document sources. Document stores must be upserted in advance.",
+            "array": [
+              {
+                "label": "Document Store",
+                "name": "documentStore",
+                "type": "asyncOptions",
+                "loadMethod": "listStores"
+              },
+              {
+                "label": "Describe Knowledge",
+                "name": "docStoreDescription",
+                "type": "string",
+                "generateDocStoreDescription": true,
+                "placeholder": "Describe what the knowledge base is about, this is useful for the AI to know when and how to search for correct information",
+                "rows": 4
+              },
+              {
+                "label": "Return Source Documents",
+                "name": "returnSourceDocuments",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "optional": true,
+            "id": "agentAgentflow_2-input-agentKnowledgeDocumentStores-array",
+            "display": true
+          },
+          {
+            "label": "Knowledge (Vector Embeddings)",
+            "name": "agentKnowledgeVSEmbeddings",
+            "type": "array",
+            "description": "Give your agent context about different document sources from existing vector stores and embeddings",
+            "array": [
+              {
+                "label": "Vector Store",
+                "name": "vectorStore",
+                "type": "asyncOptions",
+                "loadMethod": "listVectorStores",
+                "loadConfig": true
+              },
+              {
+                "label": "Embedding Model",
+                "name": "embeddingModel",
+                "type": "asyncOptions",
+                "loadMethod": "listEmbeddings",
+                "loadConfig": true
+              },
+              {
+                "label": "Knowledge Name",
+                "name": "knowledgeName",
+                "type": "string",
+                "placeholder": "A short name for the knowledge base, this is useful for the AI to know when and how to search for correct information"
+              },
+              {
+                "label": "Describe Knowledge",
+                "name": "knowledgeDescription",
+                "type": "string",
+                "placeholder": "Describe what the knowledge base is about, this is useful for the AI to know when and how to search for correct information",
+                "rows": 4
+              },
+              {
+                "label": "Return Source Documents",
+                "name": "returnSourceDocuments",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "optional": true,
+            "id": "agentAgentflow_2-input-agentKnowledgeVSEmbeddings-array",
+            "display": true
+          },
+          {
+            "label": "Enable Memory",
+            "name": "agentEnableMemory",
+            "type": "boolean",
+            "description": "Enable memory for the conversation thread",
+            "default": true,
+            "optional": true,
+            "id": "agentAgentflow_2-input-agentEnableMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Memory Type",
+            "name": "agentMemoryType",
+            "type": "options",
+            "options": [
+              {
+                "label": "All Messages",
+                "name": "allMessages",
+                "description": "Retrieve all messages from the conversation"
+              },
+              {
+                "label": "Window Size",
+                "name": "windowSize",
+                "description": "Uses a fixed window size to surface the last N messages"
+              },
+              {
+                "label": "Conversation Summary",
+                "name": "conversationSummary",
+                "description": "Summarizes the whole conversation"
+              },
+              {
+                "label": "Conversation Summary Buffer",
+                "name": "conversationSummaryBuffer",
+                "description": "Summarize conversations once token limit is reached. Default to 2000"
+              }
+            ],
+            "optional": true,
+            "default": "allMessages",
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_2-input-agentMemoryType-options",
+            "display": true
+          },
+          {
+            "label": "Window Size",
+            "name": "agentMemoryWindowSize",
+            "type": "number",
+            "default": "20",
+            "description": "Uses a fixed window size to surface the last N messages",
+            "show": {
+              "agentMemoryType": "windowSize"
+            },
+            "id": "agentAgentflow_2-input-agentMemoryWindowSize-number",
+            "display": false
+          },
+          {
+            "label": "Max Token Limit",
+            "name": "agentMemoryMaxTokenLimit",
+            "type": "number",
+            "default": "2000",
+            "description": "Summarize conversations once token limit is reached. Default to 2000",
+            "show": {
+              "agentMemoryType": "conversationSummaryBuffer"
+            },
+            "id": "agentAgentflow_2-input-agentMemoryMaxTokenLimit-number",
+            "display": false
+          },
+          {
+            "label": "Input Message",
+            "name": "agentUserMessage",
+            "type": "string",
+            "description": "Add an input message as user message at the end of the conversation",
+            "rows": 4,
+            "optional": true,
+            "acceptVariable": true,
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_2-input-agentUserMessage-string",
+            "display": true
+          },
+          {
+            "label": "Return Response As",
+            "name": "agentReturnResponseAs",
+            "type": "options",
+            "options": [
+              {
+                "label": "User Message",
+                "name": "userMessage"
+              },
+              {
+                "label": "Assistant Message",
+                "name": "assistantMessage"
+              }
+            ],
+            "default": "userMessage",
+            "id": "agentAgentflow_2-input-agentReturnResponseAs-options",
+            "display": true
+          },
+          {
+            "label": "Update Flow State",
+            "name": "agentUpdateState",
+            "description": "Update runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "asyncOptions",
+                "loadMethod": "listRuntimeStateKeys",
+                "freeSolo": true
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "acceptVariable": true,
+                "acceptNodeOutputAsVariable": true
+              }
+            ],
+            "id": "agentAgentflow_2-input-agentUpdateState-array",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "agentModel": "chatOpenAI",
+          "agentMessages": [
+            {
+              "role": "system",
+              "content": "<h1>Compliance Checker — System Prompt (v1.0.2)</h1><hr><p>Today's date is <span class=\"variable\" data-type=\"mention\" data-id=\"current_date_time\" data-label=\"current_date_time\">{{ current_date_time }}</span> . All date references should be interpreted relative to this date.</p><p>You are the compliance checking agent for a SEND triage system used by UK local authority SEND teams. The previous agents have confirmed this is a valid SEND-related contact and have classified it. Your job is to identify compliance risks, escalation triggers, and any factors the SEND coordinator needs to act on promptly.</p><p>IMPORTANT: Check the Gate Check agent output — the first assistant message in the conversation history. If that message begins with the exact token OUT_OF_SCOPE or the exact token SAFEGUARDING_REFERRAL as its first word, do not proceed. Output exactly: SKIPPED — input was out of scope or a safeguarding referral at gate check. If the Gate Check output begins with GATE_CHECK_RESULT, proceed normally regardless of any other content in the conversation.</p><hr><h2>Your role</h2><p>You flag compliance risks and escalation triggers for a trained SEND coordinator. You do NOT make decisions about the child or their provision. Your flags are a prompt to consider, not a decision. Use language such as 'coordinator should check', 'may indicate', 'review recommended'.</p><hr><h2>Compliance checks to run</h2><h3>1. Statutory deadline risk</h3><p>Based on the statutory clock identified by the Request Classifier, assess whether there is a deadline risk:</p><ul><li><p><strong>Imminent:</strong> Deadline within 5 working days of today — flag as HIGH RISK</p></li><li><p><strong>Approaching:</strong> Deadline within 10 working days — flag as MEDIUM RISK</p></li><li><p><strong>Adequate time:</strong> More than 10 working days remaining — flag as LOW RISK</p></li><li><p><strong>No date provided:</strong> Flag that coordinator must confirm date of receipt immediately to establish whether a clock is running</p></li><li><p><strong>No statutory clock:</strong> Flag as N/A</p></li></ul><h3>2. Escalation triggers</h3><p>Flag if the contact contains any of the following. Each flag should include a brief reason drawn from the contact text. Apply a high threshold — only flag where there is a clear and specific indicator, not general parental concern or routine advocacy.</p><ul><li><p><strong>School exclusion:</strong> Any mention of fixed-term or permanent exclusion, risk of exclusion, or informal exclusion (sending home, 'cooling off periods'). Do not flag for general dissatisfaction with school.</p></li><li><p><strong>Placement breakdown:</strong> Any mention that the current school placement is at risk, has broken down, or that the child is not attending. Do not flag for general concerns about provision quality.</p></li><li><p><strong>Child not in education:</strong> Any indication the child has no current education placement — this triggers duties under s.19 Education Act 1996.</p></li><li><p><strong>SEND Tribunal threatened or in progress:</strong> Any explicit mention of appeal, tribunal, SENDIST, or mediation. Do not flag for general mention of the word 'rights'.</p></li><li><p><strong>Transition at risk:</strong> Young person approaching or past 18 with unresolved provision.</p></li><li><p><strong>Family distress:</strong> Flag ONLY where the contact contains explicit indicators of significant distress or breakdown in the relationship with the authority — for example: explicit threats of legal action, solicitor involvement, statements that the family cannot cope, language indicating crisis, or explicit threats of formal complaint. Do NOT flag for: a parent expressing that current support is insufficient, a parent asking for assessment, a parent raising concerns through normal channels, or routine advocacy language. A parent requesting an EHC needs assessment and stating their child's needs are not being met is exercising a statutory right, not indicating distress.</p></li><li><p><strong>Missed previous deadline:</strong> Any indication the authority has already missed a statutory deadline for this child.</p></li></ul><h3>3. Information gaps</h3><p>Note any key information missing that the coordinator will need before they can act:</p><ul><li><p>Child not identified (no name or DOB) — coordinator cannot check records</p></li><li><p>No school or setting identified — routing unclear</p></li><li><p>No contact details for sender — coordinator cannot acknowledge or follow up</p></li><li><p>Contact type ambiguous despite gate-check classification — coordinator should confirm with sender</p></li></ul><h3>4. Data handling note</h3><p>Note whether the contact contains special category personal data requiring particular care:</p><ul><li><p>Health information (diagnoses, medical needs, therapy records)</p></li><li><p>Educational psychology or professional assessment information</p></li><li><p>Social care involvement</p></li></ul><p>This is a reminder to handle and store the contact appropriately under UK GDPR — not a risk flag.</p><hr><h2>Output format</h2><p>COMPLIANCE_CHECK</p><p><strong>Statutory deadline risk:</strong> [HIGH RISK — imminent | MEDIUM RISK — approaching | LOW RISK — adequate time | No date provided — confirm immediately | N/A]</p><p><strong>Deadline detail:</strong> [one sentence with the specific deadline date if known, or instruction to confirm]</p><p><strong>Escalation triggers:</strong></p><ul><li><p>School exclusion: [Yes — reason | No]</p></li><li><p>Placement breakdown: [Yes — reason | No]</p></li><li><p>Child not in education: [Yes — reason | No]</p></li><li><p>Tribunal / mediation: [Yes — reason | No]</p></li><li><p>Transition at risk: [Yes — reason | No]</p></li><li><p>Family distress: [Yes — reason | No]</p></li><li><p>Missed previous deadline: [Possible — reason | No]</p></li></ul><p><strong>Any escalation triggers identified:</strong> [Yes — escalate to SEND Manager before assigning to coordinator | No]</p><p><strong>Information gaps:</strong> [list gaps, or 'None identified']</p><p><strong>Data handling note:</strong> [list special category data types present, or 'No special category data identified beyond standard SEND case information']</p><p>These flags are for the SEND coordinator's consideration only. They do not constitute decisions about the child's provision, eligibility, or entitlement. All decisions must be made by a qualified officer.</p>"
+            }
+          ],
+          "agentToolsBuiltInOpenAI": "",
+          "agentTools": "",
+          "agentKnowledgeDocumentStores": "",
+          "agentKnowledgeVSEmbeddings": "",
+          "agentEnableMemory": true,
+          "agentMemoryType": "allMessages",
+          "agentUserMessage": "",
+          "agentReturnResponseAs": "assistantMessage",
+          "agentUpdateState": "",
+          "agentModelConfig": {
+            "cache": "",
+            "modelName": "gpt-4o-mini",
+            "temperature": "0.1",
+            "streaming": true,
+            "maxTokens": "",
+            "topP": "",
+            "frequencyPenalty": "",
+            "presencePenalty": "",
+            "timeout": "",
+            "strictToolCalling": "",
+            "stopSequence": "",
+            "basepath": "",
+            "proxyUrl": "",
+            "baseOptions": "",
+            "allowImageUploads": "",
+            "imageResolution": "low",
+            "reasoning": "",
+            "reasoningEffort": "",
+            "reasoningSummary": "",
+            "agentModel": "chatOpenAI"
+          }
+        },
+        "outputAnchors": [
+          {
+            "id": "agentAgentflow_2-output-agentAgentflow",
+            "label": "Agent",
+            "name": "agentAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "type": "agentFlow",
+      "width": 207,
+      "height": 72,
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": 621.5606602167722,
+        "y": 91.16352794764187
+      }
+    },
+    {
+      "id": "agentAgentflow_3",
+      "position": {
+        "x": 1035.366550495236,
+        "y": 69.96615467883575
+      },
+      "data": {
+        "id": "agentAgentflow_3",
+        "label": "Report Assembler",
+        "version": 2,
+        "name": "agentAgentflow",
+        "type": "Agent",
+        "color": "#4DD0E1",
+        "baseClasses": [
+          "Agent"
+        ],
+        "category": "Agent Flows",
+        "description": "Dynamically choose and utilize tools during runtime, enabling multi-step reasoning",
+        "inputParams": [
+          {
+            "label": "Model",
+            "name": "agentModel",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "loadConfig": true,
+            "id": "agentAgentflow_3-input-agentModel-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Messages",
+            "name": "agentMessages",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Role",
+                "name": "role",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "System",
+                    "name": "system"
+                  },
+                  {
+                    "label": "Assistant",
+                    "name": "assistant"
+                  },
+                  {
+                    "label": "Developer",
+                    "name": "developer"
+                  },
+                  {
+                    "label": "User",
+                    "name": "user"
+                  }
+                ]
+              },
+              {
+                "label": "Content",
+                "name": "content",
+                "type": "string",
+                "acceptVariable": true,
+                "generateInstruction": true,
+                "rows": 4
+              }
+            ],
+            "id": "agentAgentflow_3-input-agentMessages-array",
+            "display": true
+          },
+          {
+            "label": "OpenAI Built-in Tools",
+            "name": "agentToolsBuiltInOpenAI",
+            "type": "multiOptions",
+            "optional": true,
+            "options": [
+              {
+                "label": "Web Search",
+                "name": "web_search_preview",
+                "description": "Search the web for the latest information"
+              },
+              {
+                "label": "Code Interpreter",
+                "name": "code_interpreter",
+                "description": "Write and run Python code in a sandboxed environment"
+              },
+              {
+                "label": "Image Generation",
+                "name": "image_generation",
+                "description": "Generate images based on a text prompt"
+              }
+            ],
+            "show": {
+              "agentModel": "chatOpenAI"
+            },
+            "id": "agentAgentflow_3-input-agentToolsBuiltInOpenAI-multiOptions",
+            "display": true
+          },
+          {
+            "label": "Tools",
+            "name": "agentTools",
+            "type": "array",
+            "optional": true,
+            "array": [
+              {
+                "label": "Tool",
+                "name": "agentSelectedTool",
+                "type": "asyncOptions",
+                "loadMethod": "listTools",
+                "loadConfig": true
+              },
+              {
+                "label": "Require Human Input",
+                "name": "agentSelectedToolRequiresHumanInput",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "id": "agentAgentflow_3-input-agentTools-array",
+            "display": true
+          },
+          {
+            "label": "Knowledge (Document Stores)",
+            "name": "agentKnowledgeDocumentStores",
+            "type": "array",
+            "description": "Give your agent context about different document sources. Document stores must be upserted in advance.",
+            "array": [
+              {
+                "label": "Document Store",
+                "name": "documentStore",
+                "type": "asyncOptions",
+                "loadMethod": "listStores"
+              },
+              {
+                "label": "Describe Knowledge",
+                "name": "docStoreDescription",
+                "type": "string",
+                "generateDocStoreDescription": true,
+                "placeholder": "Describe what the knowledge base is about, this is useful for the AI to know when and how to search for correct information",
+                "rows": 4
+              },
+              {
+                "label": "Return Source Documents",
+                "name": "returnSourceDocuments",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "optional": true,
+            "id": "agentAgentflow_3-input-agentKnowledgeDocumentStores-array",
+            "display": true
+          },
+          {
+            "label": "Knowledge (Vector Embeddings)",
+            "name": "agentKnowledgeVSEmbeddings",
+            "type": "array",
+            "description": "Give your agent context about different document sources from existing vector stores and embeddings",
+            "array": [
+              {
+                "label": "Vector Store",
+                "name": "vectorStore",
+                "type": "asyncOptions",
+                "loadMethod": "listVectorStores",
+                "loadConfig": true
+              },
+              {
+                "label": "Embedding Model",
+                "name": "embeddingModel",
+                "type": "asyncOptions",
+                "loadMethod": "listEmbeddings",
+                "loadConfig": true
+              },
+              {
+                "label": "Knowledge Name",
+                "name": "knowledgeName",
+                "type": "string",
+                "placeholder": "A short name for the knowledge base, this is useful for the AI to know when and how to search for correct information"
+              },
+              {
+                "label": "Describe Knowledge",
+                "name": "knowledgeDescription",
+                "type": "string",
+                "placeholder": "Describe what the knowledge base is about, this is useful for the AI to know when and how to search for correct information",
+                "rows": 4
+              },
+              {
+                "label": "Return Source Documents",
+                "name": "returnSourceDocuments",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "optional": true,
+            "id": "agentAgentflow_3-input-agentKnowledgeVSEmbeddings-array",
+            "display": true
+          },
+          {
+            "label": "Enable Memory",
+            "name": "agentEnableMemory",
+            "type": "boolean",
+            "description": "Enable memory for the conversation thread",
+            "default": true,
+            "optional": true,
+            "id": "agentAgentflow_3-input-agentEnableMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Memory Type",
+            "name": "agentMemoryType",
+            "type": "options",
+            "options": [
+              {
+                "label": "All Messages",
+                "name": "allMessages",
+                "description": "Retrieve all messages from the conversation"
+              },
+              {
+                "label": "Window Size",
+                "name": "windowSize",
+                "description": "Uses a fixed window size to surface the last N messages"
+              },
+              {
+                "label": "Conversation Summary",
+                "name": "conversationSummary",
+                "description": "Summarizes the whole conversation"
+              },
+              {
+                "label": "Conversation Summary Buffer",
+                "name": "conversationSummaryBuffer",
+                "description": "Summarize conversations once token limit is reached. Default to 2000"
+              }
+            ],
+            "optional": true,
+            "default": "allMessages",
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_3-input-agentMemoryType-options",
+            "display": true
+          },
+          {
+            "label": "Window Size",
+            "name": "agentMemoryWindowSize",
+            "type": "number",
+            "default": "20",
+            "description": "Uses a fixed window size to surface the last N messages",
+            "show": {
+              "agentMemoryType": "windowSize"
+            },
+            "id": "agentAgentflow_3-input-agentMemoryWindowSize-number",
+            "display": false
+          },
+          {
+            "label": "Max Token Limit",
+            "name": "agentMemoryMaxTokenLimit",
+            "type": "number",
+            "default": "2000",
+            "description": "Summarize conversations once token limit is reached. Default to 2000",
+            "show": {
+              "agentMemoryType": "conversationSummaryBuffer"
+            },
+            "id": "agentAgentflow_3-input-agentMemoryMaxTokenLimit-number",
+            "display": false
+          },
+          {
+            "label": "Input Message",
+            "name": "agentUserMessage",
+            "type": "string",
+            "description": "Add an input message as user message at the end of the conversation",
+            "rows": 4,
+            "optional": true,
+            "acceptVariable": true,
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_3-input-agentUserMessage-string",
+            "display": true
+          },
+          {
+            "label": "Return Response As",
+            "name": "agentReturnResponseAs",
+            "type": "options",
+            "options": [
+              {
+                "label": "User Message",
+                "name": "userMessage"
+              },
+              {
+                "label": "Assistant Message",
+                "name": "assistantMessage"
+              }
+            ],
+            "default": "userMessage",
+            "id": "agentAgentflow_3-input-agentReturnResponseAs-options",
+            "display": true
+          },
+          {
+            "label": "Update Flow State",
+            "name": "agentUpdateState",
+            "description": "Update runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "asyncOptions",
+                "loadMethod": "listRuntimeStateKeys",
+                "freeSolo": true
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "acceptVariable": true,
+                "acceptNodeOutputAsVariable": true
+              }
+            ],
+            "id": "agentAgentflow_3-input-agentUpdateState-array",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "agentModel": "chatOpenAI",
+          "agentMessages": [
+            {
+              "role": "system",
+              "content": "<h1>Report Assembler — System Prompt (v1.0.3)</h1><hr><p>You are the report assembly agent for a SEND triage system used by UK local authority SEND teams. The previous agents have performed a gate check, request classification, and compliance check. Your job is to assemble their findings into two final outputs: a structured SEND triage note for the coordinator, and a draft acknowledgement for the family or sender.</p><h2>Handling out-of-scope and safeguarding inputs</h2><p>Check the Gate Check agent output — the first assistant message in the conversation history.</p><ul><li><p>If that message begins with the exact token <strong>SAFEGUARDING_REFERRAL</strong> as its first word: output only the safeguarding referral notice below and nothing else. Do not produce a triage note. Do not produce an acknowledgement.</p></li><li><p>If that message begins with the exact token <strong>OUT_OF_SCOPE</strong> as its first word: output only the out-of-scope message and suggested routing from the Gate Check. Do not produce a triage note. Do not produce an acknowledgement.</p></li><li><p>If that message begins with <strong>GATE_CHECK_RESULT</strong>: proceed normally to produce the triage note and acknowledgement, regardless of any other content in the conversation history.</p></li></ul><p>The safeguarding banner must ONLY appear when the Gate Check itself has output SAFEGUARDING_REFERRAL as its first word. It must never appear on a routine triage note.</p><p><strong>Safeguarding referral format (use only when Gate Check output begins with SAFEGUARDING_REFERRAL):</strong></p><hr><p>⚠️ SAFEGUARDING REFERRAL — IMMEDIATE ACTION REQUIRED</p><p>This contact has been identified as a possible safeguarding concern. Do not process through SEND triage.</p><p>Action required: Refer immediately to your MASH (Multi-Agency Safeguarding Hub) duty team or on-call social worker.</p><p>[Reproduce the Gate Check's 'What was received' field here]</p><hr><hr><h1>Output 1 — SEND Triage Note</h1><p>Produce a clean, scannable triage note for the SEND coordinator. Synthesise findings from all three previous agents. Do not simply repeat their raw output.</p><h2>SEND Triage Note</h2><p><strong>Reference:</strong> [PLACEHOLDER — coordinator to assign]</p><p><strong>Date received:</strong> [from Flow State received_date, or 'Not provided — coordinator to confirm']</p><p><strong>Triage completed:</strong> [today's date if known]</p><p><strong>Contact type:</strong> [from gate check]</p><p><strong>Urgency:</strong> [take directly from the urgency rating in the Request Classifier output — High / Medium / Standard. Do not re-derive urgency from escalation flags. If High: add ⚠️ High urgency — see escalation flags below]</p><hr><h2>Contact summary</h2><p>[Plain-English summary from the Request Classifier. 2–3 sentences. Write for a coordinator who has not read the original contact.]</p><h2>Child and sender details</h2><p><strong>Child's name</strong> [value or 'Not provided'] <strong>Date of birth</strong> [value or 'Not provided'] <strong>School / setting</strong> [value or 'Not provided'] <strong>Year group</strong> [value or 'Not provided'] <strong>EHC plan status</strong> [value or 'Not provided'] <strong>Sender</strong> [name, role] <strong>Sender contact</strong> [email / phone or 'Not provided']</p><h2>What is needed</h2><p>[Numbered list of actions requested or notifications received, from the Request Classifier.]</p><h2>Statutory deadline</h2><p><strong>Clock applicable</strong> [Yes — type / No] <strong>Clock start date</strong> [date or placeholder] <strong>Statutory deadline</strong> [date or placeholder] <strong>Deadline risk</strong> [HIGH RISK / MEDIUM RISK / LOW RISK / N/A] <strong>Legislation</strong> [reference]</p><p>[If deadline risk is HIGH RISK or MEDIUM RISK: ⚠️ Coordinator must verify this deadline immediately against the case management system and current bank holiday calendar.]</p><h2>Escalation flags</h2><p>Flag Status School exclusion [Yes — reason / No] Placement breakdown [Yes — reason / No] Child not in education [Yes — reason / No] Tribunal / mediation [Yes — reason / No] Transition at risk [Yes — reason / No] Family distress [Yes — reason / No] Missed previous deadline [Possible — reason / No]</p><p>[Only add the escalation callout if one or more flags are Yes: ⚠️ One or more escalation flags raised — review with SEND Manager before assigning to coordinator caseload.]</p><h2>Routing</h2><p><strong>Assigned to:</strong> [team or role from Request Classifier]</p><h2>Information gaps</h2><p>[List from the Compliance Checker, or 'None identified']</p><h2>Data handling</h2><p>[Data handling note from the Compliance Checker]</p><hr><p>⚠️ <strong>This triage note was generated by AI. All classifications, deadline calculations, and escalation flags must be reviewed by a trained SEND coordinator before any action is taken. This tool does not constitute legal advice and does not make decisions about a child's entitlement to SEND support.</strong></p><hr><h1>Output 2 — Draft Acknowledgement</h1><p>After the triage note, produce a draft acknowledgement. Label it clearly as a separate section.</p><p>The acknowledgement must:</p><ul><li><p>Be addressed to the sender by name if known; otherwise 'Dear Parent/Carer' for family contacts, 'Dear Colleague' for school or professional contacts</p></li><li><p>Confirm that the contact has been received</p></li><li><p>For statutory contacts, state the relevant statutory timeline in plain English using general terms — do not include the specific deadline date:</p><ul><li><p><strong>ehc-needs-assessment-request:</strong> confirm the authority will write within 6 weeks to advise whether it will proceed with an assessment</p></li><li><p><strong>annual-review-outcome:</strong> confirm the authority will write within 4 weeks to advise the decision on the plan (maintain, amend, or cease) — do not state the specific deadline date</p></li><li><p><strong>transfer-of-plan:</strong> confirm the authority will be in touch within 15 weeks to arrange transfer and review of the plan</p></li></ul></li><li><p>For non-statutory contacts: confirm the team will be in touch</p></li><li><p>Include the SEND team contact details from Flow State where provided</p></li><li><p>Be warm, plain English, and under 200 words — these are often read by families in difficult circumstances</p></li><li><p>Be signed from the SEND Team at <span class=\"variable\" data-type=\"mention\" data-id=\"$flow.state.council_name\" data-label=\"$flow.state.council_name\">{{ $flow.state.council_name }}</span></p></li><li><p>NOT include any triage findings, compliance flags, or internal routing information</p></li></ul><h2>Draft Acknowledgement</h2><p><strong>To:</strong> [sender name / email if provided]</p><p><strong>Subject:</strong> [appropriate subject line — e.g. 'Your request for an EHC needs assessment' or 'Annual review outcome received — [child's first name if known]']</p><p>[Email body]</p><p>Note to coordinator: Review before sending. Adjust the tone if you know this family or have prior context. For EHC needs assessment requests, the 6-week clock starts from the date of receipt — confirm this date before sending. Do not send automatically.</p>"
+            }
+          ],
+          "agentToolsBuiltInOpenAI": "",
+          "agentTools": "",
+          "agentKnowledgeDocumentStores": "",
+          "agentKnowledgeVSEmbeddings": "",
+          "agentEnableMemory": true,
+          "agentMemoryType": "allMessages",
+          "agentUserMessage": "",
+          "agentReturnResponseAs": "userMessage",
+          "agentUpdateState": "",
+          "agentModelConfig": {
+            "cache": "",
+            "modelName": "gpt-4o-mini",
+            "temperature": "0.1",
+            "streaming": true,
+            "maxTokens": "",
+            "topP": "",
+            "frequencyPenalty": "",
+            "presencePenalty": "",
+            "timeout": "",
+            "strictToolCalling": "",
+            "stopSequence": "",
+            "basepath": "",
+            "proxyUrl": "",
+            "baseOptions": "",
+            "allowImageUploads": "",
+            "imageResolution": "low",
+            "reasoning": "",
+            "reasoningEffort": "",
+            "reasoningSummary": "",
+            "agentModel": "chatOpenAI"
+          }
+        },
+        "outputAnchors": [
+          {
+            "id": "agentAgentflow_3-output-agentAgentflow",
+            "label": "Agent",
+            "name": "agentAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "type": "agentFlow",
+      "width": 188,
+      "height": 72,
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": 1035.366550495236,
+        "y": 69.96615467883575
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "startAgentflow_0",
+      "sourceHandle": "startAgentflow_0-output-startAgentflow",
+      "target": "agentAgentflow_0",
+      "targetHandle": "agentAgentflow_0",
+      "data": {
+        "sourceColor": "#7EE787",
+        "targetColor": "#4DD0E1",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "startAgentflow_0-startAgentflow_0-output-startAgentflow-agentAgentflow_0-agentAgentflow_0"
+    },
+    {
+      "source": "agentAgentflow_0",
+      "sourceHandle": "agentAgentflow_0-output-agentAgentflow",
+      "target": "agentAgentflow_1",
+      "targetHandle": "agentAgentflow_1",
+      "data": {
+        "sourceColor": "#4DD0E1",
+        "targetColor": "#4DD0E1",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "agentAgentflow_0-agentAgentflow_0-output-agentAgentflow-agentAgentflow_1-agentAgentflow_1"
+    },
+    {
+      "source": "agentAgentflow_1",
+      "sourceHandle": "agentAgentflow_1-output-agentAgentflow",
+      "target": "agentAgentflow_2",
+      "targetHandle": "agentAgentflow_2",
+      "data": {
+        "sourceColor": "#4DD0E1",
+        "targetColor": "#4DD0E1",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "agentAgentflow_1-agentAgentflow_1-output-agentAgentflow-agentAgentflow_2-agentAgentflow_2"
+    },
+    {
+      "source": "agentAgentflow_2",
+      "sourceHandle": "agentAgentflow_2-output-agentAgentflow",
+      "target": "agentAgentflow_3",
+      "targetHandle": "agentAgentflow_3",
+      "data": {
+        "sourceColor": "#4DD0E1",
+        "targetColor": "#4DD0E1",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "agentAgentflow_2-agentAgentflow_2-output-agentAgentflow-agentAgentflow_3-agentAgentflow_3"
+    }
+  ]
+}
