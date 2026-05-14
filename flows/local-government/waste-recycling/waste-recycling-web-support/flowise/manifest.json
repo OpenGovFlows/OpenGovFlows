@@ -1,0 +1,105 @@
+{
+  "id": "waste-recycling-support",
+  "name": "Waste & Recycling Web Support Assistant",
+  "version": "1.0.0",
+  "status": "experimental",
+  "description": "Resident-facing web chat assistant for waste and recycling queries. Helps residents find collection days, report missed bins, book bulky waste collections, and understand what can be recycled.",
+
+  "platform": "flowise",
+  "platform_version": {
+    "min_version": "3.0.0",
+    "tested_version": "3.0.5"
+  },
+  "workflow_file": "workflow.json",
+
+  "sector": ["local-gov"],
+  "use_case_category": "resident-self-service",
+  "tags": [
+    "waste",
+    "recycling",
+    "bins",
+    "missed-bin",
+    "bulky-waste",
+    "collection-days",
+    "fly-tipping",
+    "resident-services",
+    "web-chat",
+    "self-service"
+  ],
+
+  "requirements": {
+    "llm": {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "notes": "Tested on gpt-4o-mini at temperature 0.1. Upgrade to gpt-4o if higher accuracy is needed on complex waste disposal queries, though this is unlikely to be necessary for this service area."
+    },
+    "environment_variables": [
+      {
+        "key": "OPENAI_API_KEY",
+        "required": true,
+        "description": "Your OpenAI API key. Set under Credentials in Flowise and assign to the agent node."
+      }
+    ],
+    "vector_store": {
+      "required": true,
+      "description": "Council waste and recycling service pages, collection schedules, recycling centre information, bulky waste booking guidance, fly-tipping reporting procedures, and general recycling guidance.",
+      "recommended_sources": "See README.md — Data sources section."
+    }
+  },
+
+  "inputs": [
+    {
+      "name": "resident_query",
+      "type": "text",
+      "description": "The resident's question or message, entered via the embedded web chat widget.",
+      "required": true
+    }
+  ],
+
+  "outputs": [
+    {
+      "name": "assistant_response",
+      "type": "text",
+      "description": "A plain-English response answering the resident's query, signposting to the relevant service page or form, or escalating to a human contact."
+    }
+  ],
+
+  "flow_state": [
+    {
+      "key": "council_name",
+      "description": "Your council's full name. Used throughout responses.",
+      "default": "ENTER_COUNCIL_NAME"
+    },
+    {
+      "key": "council_website",
+      "description": "Your council's main website URL. Used when redirecting out-of-scope queries.",
+      "default": "ENTER_COUNCIL_WEBSITE"
+    },
+    {
+      "key": "service_url",
+      "description": "The URL of the council's waste and recycling web pages.",
+      "default": "ENTER_SERVICE_URL"
+    },
+    {
+      "key": "service_phone",
+      "description": "The main contact number for waste and recycling — missed bins, fly-tipping, and general enquiries.",
+      "default": "ENTER_SERVICE_PHONE"
+    },
+    {
+      "key": "service_email",
+      "description": "The waste and recycling service email address.",
+      "default": "ENTER_SERVICE_EMAIL"
+    }
+  ],
+
+  "governance": {
+    "human_review_required": false,
+    "human_review_notes": "No human review required for individual responses. Monitor conversation logs weekly for patterns indicating recurring service failures, resident frustration, or queries the assistant is consistently failing to answer. Use findings to improve RAG content and the system prompt.",
+    "data_sensitivity": "low",
+    "data_notes": "Does not process personal data in standard operation. Residents may share their address to ask about collection days — this should not be stored beyond the active session. Ephemeral memory is not enabled by default; session memory clears when the conversation ends.",
+    "risk_level": "low",
+    "iso_42001_aligned": true
+  },
+
+  "licence": "MIT"
+}
