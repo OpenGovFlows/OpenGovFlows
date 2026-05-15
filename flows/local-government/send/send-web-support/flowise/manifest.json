@@ -1,0 +1,114 @@
+{
+  "id": "send-childrens-services-support",
+  "name": "SEND & Children's Services Web Support Assistant",
+  "version": "1.0.0",
+  "status": "experimental",
+  "description": "Resident and family-facing web chat assistant for SEND and children's services queries. Helps families understand the EHC plan process, navigate the local offer, access early help, and find children's services support.",
+
+  "platform": "flowise",
+  "platform_version": {
+    "min_version": "3.0.0",
+    "tested_version": "3.0.5"
+  },
+  "workflow_file": "workflow.json",
+
+  "sector": ["local-gov"],
+  "use_case_category": "resident-self-service",
+  "tags": [
+    "send",
+    "ehcp",
+    "childrens-services",
+    "local-offer",
+    "early-help",
+    "school-admissions",
+    "family-support",
+    "disabilities",
+    "sendiass",
+    "web-chat",
+    "self-service"
+  ],
+
+  "requirements": {
+    "llm": {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "notes": "Tested on gpt-4o-mini at temperature 0.1. The low temperature is critical for this flow — families may act on information about statutory rights and processes. Consistency and accuracy are essential. Do not increase the temperature for this flow."
+    },
+    "environment_variables": [
+      {
+        "key": "OPENAI_API_KEY",
+        "required": true,
+        "description": "Your OpenAI API key. Set under Credentials in Flowise and assign to the agent node."
+      }
+    ],
+    "vector_store": {
+      "required": true,
+      "description": "Council SEND web pages and Local Offer, EHCP request and process guidance, school admissions guidance for SEND, early help and family support services, SENDIASS service details, SEND Code of Practice 2015, and GOV.UK SEND guidance.",
+      "recommended_sources": "See README.md — Data sources section."
+    }
+  },
+
+  "inputs": [
+    {
+      "name": "family_query",
+      "type": "text",
+      "description": "The family's or resident's question or message, entered via the embedded web chat widget.",
+      "required": true
+    }
+  ],
+
+  "outputs": [
+    {
+      "name": "assistant_response",
+      "type": "text",
+      "description": "A plain-English response answering the query, signposting to the Local Offer or SENDIASS, or immediate escalation when safeguarding concerns are raised."
+    }
+  ],
+
+  "flow_state": [
+    {
+      "key": "council_name",
+      "description": "Your council's full name. Used throughout responses.",
+      "default": "ENTER_COUNCIL_NAME"
+    },
+    {
+      "key": "council_website",
+      "description": "Your council's main website URL. Used when redirecting out-of-scope queries.",
+      "default": "ENTER_COUNCIL_WEBSITE"
+    },
+    {
+      "key": "service_url",
+      "description": "The URL of the council's SEND web pages or Local Offer.",
+      "default": "ENTER_SERVICE_URL"
+    },
+    {
+      "key": "service_phone",
+      "description": "The SEND and children's services duty team contact number. Must be staffed during all hours the widget is active. This number is provided when safeguarding concerns are raised.",
+      "default": "ENTER_SERVICE_PHONE"
+    },
+    {
+      "key": "service_email",
+      "description": "The SEND team email address.",
+      "default": "ENTER_SERVICE_EMAIL"
+    }
+  ],
+
+  "governance": {
+    "human_review_required": true,
+    "human_review_notes": "All conversations must be available for review. Any conversation where a safeguarding concern may have been raised — however indirectly — must be reviewed by a qualified social worker. A named officer in the SEND team should review a sample of conversations weekly. Maintain a log of all conversations where the assistant escalated to the duty team or NSPCC and review monthly. Do not deploy without a confirmed process for these reviews.",
+    "data_sensitivity": "high",
+    "data_notes": "This flow involves children and families, some of whom may be in vulnerable situations. Special category data (disability, health) is likely to be mentioned. The assistant must not encourage families to share detailed personal or medical information about their child in chat. Any safeguarding disclosure must be escalated immediately. Session memory clears when the conversation ends. A full DPIA is required before deployment.",
+    "risk_level": "high",
+    "iso_42001_aligned": true,
+    "pre_deployment_requirements": [
+      "Full Data Protection Impact Assessment (DPIA) signed off by DPO",
+      "Legal sign-off confirming the flow does not conflict with statutory SEND duties",
+      "Sign-off from Head of SEND or equivalent senior responsible owner",
+      "Confirmed process for reviewing conversations where safeguarding concerns may have been raised",
+      "Confirmed that service_phone is staffed during all hours the widget is active",
+      "Staff awareness briefing for the SEND team"
+    ]
+  },
+
+  "licence": "MIT"
+}
