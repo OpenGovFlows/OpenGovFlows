@@ -1,0 +1,114 @@
+{
+  "id": "adult-social-care-support",
+  "name": "Adult Social Care Web Support Assistant",
+  "version": "1.0.0",
+  "status": "experimental",
+  "description": "Resident and carer-facing web chat assistant for adult social care queries. Helps residents and carers understand how to request a needs assessment, access direct payments, find care providers, and get carer support.",
+
+  "platform": "flowise",
+  "platform_version": {
+    "min_version": "3.0.0",
+    "tested_version": "3.0.5"
+  },
+  "workflow_file": "workflow.json",
+
+  "sector": ["local-gov"],
+  "use_case_category": "resident-self-service",
+  "tags": [
+    "adult-social-care",
+    "needs-assessment",
+    "direct-payments",
+    "carers",
+    "care-providers",
+    "safeguarding",
+    "reablement",
+    "telecare",
+    "disabilities",
+    "web-chat",
+    "self-service"
+  ],
+
+  "requirements": {
+    "llm": {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "notes": "Tested on gpt-4o-mini at temperature 0.1. The low temperature is critical for this flow — vulnerable adults and carers may act on information about statutory rights and care processes. Do not increase the temperature for this flow."
+    },
+    "environment_variables": [
+      {
+        "key": "OPENAI_API_KEY",
+        "required": true,
+        "description": "Your OpenAI API key. Set under Credentials in Flowise and assign to the agent node."
+      }
+    ],
+    "vector_store": {
+      "required": true,
+      "description": "Council adult social care service pages, care needs assessment process, direct payments guidance, carers assessment and support services, reablement and intermediate care, telecare and assistive technology, adult safeguarding process, and GOV.UK care and support guidance.",
+      "recommended_sources": "See README.md — Data sources section."
+    }
+  },
+
+  "inputs": [
+    {
+      "name": "resident_query",
+      "type": "text",
+      "description": "The resident's or carer's question or message, entered via the embedded web chat widget.",
+      "required": true
+    }
+  ],
+
+  "outputs": [
+    {
+      "name": "assistant_response",
+      "type": "text",
+      "description": "A plain-English response answering the query, signposting to the relevant service or care directory, or immediate escalation when safeguarding concerns are raised."
+    }
+  ],
+
+  "flow_state": [
+    {
+      "key": "council_name",
+      "description": "Your council's full name. Used throughout responses.",
+      "default": "ENTER_COUNCIL_NAME"
+    },
+    {
+      "key": "council_website",
+      "description": "Your council's main website URL. Used when redirecting out-of-scope queries.",
+      "default": "ENTER_COUNCIL_WEBSITE"
+    },
+    {
+      "key": "service_url",
+      "description": "The URL of the council's adult social care web pages.",
+      "default": "ENTER_SERVICE_URL"
+    },
+    {
+      "key": "service_phone",
+      "description": "The adult social care duty team contact number. Must be staffed during all hours the widget is active. This number is provided when safeguarding concerns are raised.",
+      "default": "ENTER_SERVICE_PHONE"
+    },
+    {
+      "key": "service_email",
+      "description": "The adult social care team email address.",
+      "default": "ENTER_SERVICE_EMAIL"
+    }
+  ],
+
+  "governance": {
+    "human_review_required": true,
+    "human_review_notes": "All conversations must be available for review. Any conversation where a safeguarding concern may have been raised — however indirectly — must be reviewed by a qualified social worker. A named officer in the adult social care team should review a sample of conversations weekly. Maintain a log of all conversations where the assistant escalated to the duty team and review monthly. Do not deploy without a confirmed process for these reviews.",
+    "data_sensitivity": "high",
+    "data_notes": "This flow involves vulnerable adults who may share sensitive personal, health, and financial information. Special category data is likely to be mentioned. The assistant must not encourage residents to share detailed personal or medical information in chat. Any safeguarding concern must be escalated immediately. Session memory clears when the conversation ends. A full DPIA is required before deployment.",
+    "risk_level": "high",
+    "iso_42001_aligned": true,
+    "pre_deployment_requirements": [
+      "Full Data Protection Impact Assessment (DPIA) signed off by DPO",
+      "Legal sign-off confirming the flow does not conflict with Care Act 2014 duties",
+      "Sign-off from Director of Adult Social Care or equivalent senior responsible owner",
+      "Confirmed process for reviewing conversations where safeguarding concerns may have been raised",
+      "Confirmed that service_phone is staffed during all hours the widget is active",
+      "Staff awareness briefing for the adult social care team"
+    ]
+  },
+
+  "licence": "MIT"
+}
