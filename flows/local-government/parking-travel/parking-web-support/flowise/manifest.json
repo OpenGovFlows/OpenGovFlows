@@ -1,0 +1,106 @@
+{
+  "id": "parking-roads-support",
+  "name": "Parking & Roads Web Support Assistant",
+  "version": "1.0.0",
+  "status": "experimental",
+  "description": "Resident-facing web chat assistant for parking and roads queries. Helps residents pay or appeal penalty charge notices, apply for permits, report potholes and streetlighting faults, and understand parking restrictions.",
+
+  "platform": "flowise",
+  "platform_version": {
+    "min_version": "3.0.0",
+    "tested_version": "3.0.5"
+  },
+  "workflow_file": "workflow.json",
+
+  "sector": ["local-gov"],
+  "use_case_category": "resident-self-service",
+  "tags": [
+    "parking",
+    "pcn",
+    "penalty-charge",
+    "parking-permit",
+    "pothole",
+    "roads",
+    "streetlighting",
+    "blue-badge",
+    "highways",
+    "web-chat",
+    "self-service"
+  ],
+
+  "requirements": {
+    "llm": {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "notes": "Tested on gpt-4o-mini at temperature 0.1. Consistency is important for PCN appeal guidance — the three-stage process must be explained accurately and in the correct order every time."
+    },
+    "environment_variables": [
+      {
+        "key": "OPENAI_API_KEY",
+        "required": true,
+        "description": "Your OpenAI API key. Set under Credentials in Flowise and assign to the agent node."
+      }
+    ],
+    "vector_store": {
+      "required": true,
+      "description": "Council parking and roads service pages, PCN payment and appeal process, parking permit zones and eligibility, pothole and streetlighting reporting, road closure notices, Blue Badge guidance, and GOV.UK parking guidance.",
+      "recommended_sources": "See README.md — Data sources section."
+    }
+  },
+
+  "inputs": [
+    {
+      "name": "resident_query",
+      "type": "text",
+      "description": "The resident's question or message, entered via the embedded web chat widget.",
+      "required": true
+    }
+  ],
+
+  "outputs": [
+    {
+      "name": "assistant_response",
+      "type": "text",
+      "description": "A plain-English response answering the resident's query, signposting to the payment portal, appeal form, or reporting tool, or escalating to a human contact."
+    }
+  ],
+
+  "flow_state": [
+    {
+      "key": "council_name",
+      "description": "Your council's full name. Used throughout responses.",
+      "default": "ENTER_COUNCIL_NAME"
+    },
+    {
+      "key": "council_website",
+      "description": "Your council's main website URL. Used when redirecting out-of-scope queries.",
+      "default": "ENTER_COUNCIL_WEBSITE"
+    },
+    {
+      "key": "service_url",
+      "description": "The URL of the council's parking and roads web pages or PCN payment portal.",
+      "default": "ENTER_SERVICE_URL"
+    },
+    {
+      "key": "service_phone",
+      "description": "The parking and highways contact number. Include an emergency highways number if available for out-of-hours dangerous defect reports.",
+      "default": "ENTER_SERVICE_PHONE"
+    },
+    {
+      "key": "service_email",
+      "description": "The parking appeals and highways contact email address.",
+      "default": "ENTER_SERVICE_EMAIL"
+    }
+  ],
+
+  "governance": {
+    "human_review_required": false,
+    "human_review_notes": "No human review required for individual responses. Monitor conversation logs monthly for patterns indicating residents are having difficulty navigating the PCN appeal process or receiving inconsistent guidance on permit eligibility. Use findings to improve RAG content and the system prompt.",
+    "data_sensitivity": "low",
+    "data_notes": "Residents may share vehicle registrations or PCN reference numbers to contextualise their query. These should not be stored beyond the active session. Payment must not occur through the chat interface — always direct to the payment portal.",
+    "risk_level": "low",
+    "iso_42001_aligned": true
+  },
+
+  "licence": "MIT"
+}
