@@ -1,0 +1,105 @@
+{
+  "id": "foi-data-protection-support",
+  "name": "FOI & Data Protection Web Support Assistant",
+  "version": "1.0.0",
+  "status": "experimental",
+  "description": "Resident-facing web chat assistant for FOI and data protection queries. Helps residents understand how to make Freedom of Information requests, submit subject access requests, and exercise their data rights.",
+
+  "platform": "flowise",
+  "platform_version": {
+    "min_version": "3.0.0",
+    "tested_version": "3.0.5"
+  },
+  "workflow_file": "workflow.json",
+
+  "sector": ["local-gov"],
+  "use_case_category": "resident-self-service",
+  "tags": [
+    "foi",
+    "freedom-of-information",
+    "data-protection",
+    "gdpr",
+    "sar",
+    "subject-access",
+    "privacy",
+    "ico",
+    "web-chat",
+    "self-service"
+  ],
+
+  "requirements": {
+    "llm": {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "notes": "Tested on gpt-4o-mini at temperature 0.1. Accuracy is important — incorrect guidance on FOI timescales, exemptions, or the review process could lead residents to miss deadlines or make avoidable complaints."
+    },
+    "environment_variables": [
+      {
+        "key": "OPENAI_API_KEY",
+        "required": true,
+        "description": "Your OpenAI API key. Set under Credentials in Flowise and assign to the agent node."
+      }
+    ],
+    "vector_store": {
+      "required": true,
+      "description": "Council FOI and data protection pages, Publication Scheme, privacy notices, SAR process, internal review and ICO complaint process, and ICO public guidance on data rights.",
+      "recommended_sources": "See README.md — Data sources section."
+    }
+  },
+
+  "inputs": [
+    {
+      "name": "resident_query",
+      "type": "text",
+      "description": "The resident's question or message, entered via the embedded web chat widget.",
+      "required": true
+    }
+  ],
+
+  "outputs": [
+    {
+      "name": "assistant_response",
+      "type": "text",
+      "description": "A plain-English response answering the resident's query, signposting to the submission channel or ICO, or providing escalation guidance."
+    }
+  ],
+
+  "flow_state": [
+    {
+      "key": "council_name",
+      "description": "Your council's full name. Used throughout responses.",
+      "default": "ENTER_COUNCIL_NAME"
+    },
+    {
+      "key": "council_website",
+      "description": "Your council's main website URL. Used when redirecting out-of-scope queries.",
+      "default": "ENTER_COUNCIL_WEBSITE"
+    },
+    {
+      "key": "service_url",
+      "description": "The URL of the council's FOI and data protection web pages or online submission form.",
+      "default": "ENTER_SERVICE_URL"
+    },
+    {
+      "key": "service_phone",
+      "description": "The information governance team contact number.",
+      "default": "ENTER_SERVICE_PHONE"
+    },
+    {
+      "key": "service_email",
+      "description": "The FOI and SAR submission email address. This is the primary channel for formal requests.",
+      "default": "ENTER_SERVICE_EMAIL"
+    }
+  ],
+
+  "governance": {
+    "human_review_required": true,
+    "human_review_notes": "Review conversation logs monthly. Flag patterns suggesting residents are being incorrectly redirected, or are confused about the difference between FOI and SAR. Ensure the assistant is not attempting to predict or assess whether requests will be granted, and is correctly directing all formal submissions to the official channel.",
+    "data_sensitivity": "low",
+    "data_notes": "Standard queries do not require personal data. If a resident provides their name when asking about submission, this is appropriate and expected. The assistant must not solicit additional personal data beyond what is needed for signposting. Session memory clears when the conversation ends.",
+    "risk_level": "medium",
+    "iso_42001_aligned": true
+  },
+
+  "licence": "MIT"
+}
