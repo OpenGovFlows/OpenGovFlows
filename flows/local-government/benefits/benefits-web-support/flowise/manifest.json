@@ -1,0 +1,105 @@
+{
+  "id": "benefits-financial-support",
+  "name": "Benefits & Financial Support Web Support Assistant",
+  "version": "1.0.0",
+  "status": "experimental",
+  "description": "Resident-facing web chat assistant for benefits and financial support queries. Helps residents understand what support is available locally and nationally, how to apply, and where to get further help.",
+
+  "platform": "flowise",
+  "platform_version": {
+    "min_version": "3.0.0",
+    "tested_version": "3.0.5"
+  },
+  "workflow_file": "workflow.json",
+
+  "sector": ["local-gov"],
+  "use_case_category": "resident-self-service",
+  "tags": [
+    "benefits",
+    "housing-benefit",
+    "council-tax-support",
+    "discretionary",
+    "hardship",
+    "universal-credit",
+    "financial-support",
+    "free-school-meals",
+    "web-chat",
+    "self-service"
+  ],
+
+  "requirements": {
+    "llm": {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "notes": "Tested on gpt-4o-mini at temperature 0.1. Accuracy is important — residents may act on information about benefit eligibility and application processes. The low temperature reduces the risk of hallucinated eligibility criteria."
+    },
+    "environment_variables": [
+      {
+        "key": "OPENAI_API_KEY",
+        "required": true,
+        "description": "Your OpenAI API key. Set under Credentials in Flowise and assign to the agent node."
+      }
+    ],
+    "vector_store": {
+      "required": true,
+      "description": "Council benefits service pages, Housing Benefit guidance, Council Tax Reduction scheme policy, discretionary payments, local welfare and hardship fund, Free School Meals eligibility, Disabled Facilities Grant guidance, and GOV.UK benefits guidance.",
+      "recommended_sources": "See README.md — Data sources section."
+    }
+  },
+
+  "inputs": [
+    {
+      "name": "resident_query",
+      "type": "text",
+      "description": "The resident's question or message, entered via the embedded web chat widget.",
+      "required": true
+    }
+  ],
+
+  "outputs": [
+    {
+      "name": "assistant_response",
+      "type": "text",
+      "description": "A plain-English response answering the resident's query, signposting to the relevant application or service, or escalating to a human contact or specialist service."
+    }
+  ],
+
+  "flow_state": [
+    {
+      "key": "council_name",
+      "description": "Your council's full name. Used throughout responses.",
+      "default": "ENTER_COUNCIL_NAME"
+    },
+    {
+      "key": "council_website",
+      "description": "Your council's main website URL. Used when redirecting out-of-scope queries.",
+      "default": "ENTER_COUNCIL_WEBSITE"
+    },
+    {
+      "key": "service_url",
+      "description": "The URL of the council's benefits web pages or application portal.",
+      "default": "ENTER_SERVICE_URL"
+    },
+    {
+      "key": "service_phone",
+      "description": "The benefits team contact number.",
+      "default": "ENTER_SERVICE_PHONE"
+    },
+    {
+      "key": "service_email",
+      "description": "The benefits team email address.",
+      "default": "ENTER_SERVICE_EMAIL"
+    }
+  ],
+
+  "governance": {
+    "human_review_required": true,
+    "human_review_notes": "Review conversation logs weekly. Flag conversations where residents appear to be in financial crisis or significant distress, and where referrals to emergency support or debt advice may have been missed. Ensure the assistant is consistently offering appropriate signposting for residents who mention hardship, debt, or an inability to afford essentials.",
+    "data_sensitivity": "medium",
+    "data_notes": "Residents are likely to share financial circumstances, household composition, and employment status. The assistant must never ask for or record National Insurance numbers, bank account details, or passwords. All applications must go through secure forms or portals. Session memory clears when the conversation ends.",
+    "risk_level": "medium",
+    "iso_42001_aligned": true
+  },
+
+  "licence": "MIT"
+}
