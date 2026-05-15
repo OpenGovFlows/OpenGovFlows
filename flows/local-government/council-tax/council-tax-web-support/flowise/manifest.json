@@ -1,0 +1,105 @@
+{
+  "id": "council-tax-support",
+  "name": "Council Tax Web Support Assistant",
+  "version": "1.0.0",
+  "status": "experimental",
+  "description": "Resident-facing web chat assistant for council tax queries. Helps residents understand their bill, apply for discounts and exemptions, set up payment methods, and manage their account.",
+
+  "platform": "flowise",
+  "platform_version": {
+    "min_version": "3.0.0",
+    "tested_version": "3.0.5"
+  },
+  "workflow_file": "workflow.json",
+
+  "sector": ["local-gov"],
+  "use_case_category": "resident-self-service",
+  "tags": [
+    "council-tax",
+    "billing",
+    "discounts",
+    "exemptions",
+    "direct-debit",
+    "arrears",
+    "council-tax-reduction",
+    "ctrs",
+    "web-chat",
+    "self-service"
+  ],
+
+  "requirements": {
+    "llm": {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "notes": "Tested on gpt-4o-mini at temperature 0.1. The low temperature is important for this service area — residents acting on incorrect information about discounts, exemptions, or enforcement could face real financial harm."
+    },
+    "environment_variables": [
+      {
+        "key": "OPENAI_API_KEY",
+        "required": true,
+        "description": "Your OpenAI API key. Set under Credentials in Flowise and assign to the agent node."
+      }
+    ],
+    "vector_store": {
+      "required": true,
+      "description": "Council tax service pages, discount and exemption criteria, Council Tax Reduction scheme policy, payment options, arrears process, and GOV.UK council tax guidance.",
+      "recommended_sources": "See README.md — Data sources section."
+    }
+  },
+
+  "inputs": [
+    {
+      "name": "resident_query",
+      "type": "text",
+      "description": "The resident's question or message, entered via the embedded web chat widget.",
+      "required": true
+    }
+  ],
+
+  "outputs": [
+    {
+      "name": "assistant_response",
+      "type": "text",
+      "description": "A plain-English response answering the resident's query, signposting to the relevant service page or form, or escalating to a human contact."
+    }
+  ],
+
+  "flow_state": [
+    {
+      "key": "council_name",
+      "description": "Your council's full name. Used throughout responses.",
+      "default": "ENTER_COUNCIL_NAME"
+    },
+    {
+      "key": "council_website",
+      "description": "Your council's main website URL. Used when redirecting out-of-scope queries.",
+      "default": "ENTER_COUNCIL_WEBSITE"
+    },
+    {
+      "key": "service_url",
+      "description": "The URL of the council's council tax web pages or My Account portal.",
+      "default": "ENTER_SERVICE_URL"
+    },
+    {
+      "key": "service_phone",
+      "description": "The revenues team contact number for council tax queries.",
+      "default": "ENTER_SERVICE_PHONE"
+    },
+    {
+      "key": "service_email",
+      "description": "The revenues team email address for council tax queries.",
+      "default": "ENTER_SERVICE_EMAIL"
+    }
+  ],
+
+  "governance": {
+    "human_review_required": true,
+    "human_review_notes": "Review conversation logs weekly. Flag any conversations where residents appear to be in financial hardship or distress — ensure appropriate referrals to the hardship fund and debt advice services were made. Residents in enforcement situations must always be directed to call the revenues team directly.",
+    "data_sensitivity": "medium",
+    "data_notes": "Residents may share financial circumstances and household details. The assistant must never ask for or record payment card numbers, bank account details, sort codes, or National Insurance numbers. All account-specific queries must be redirected to the secure My Account portal. Session memory clears when the conversation ends.",
+    "risk_level": "medium",
+    "iso_42001_aligned": true
+  },
+
+  "licence": "MIT"
+}
