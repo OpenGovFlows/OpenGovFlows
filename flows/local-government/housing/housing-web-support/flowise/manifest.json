@@ -1,0 +1,105 @@
+{
+  "id": "housing-homelessness-support",
+  "name": "Housing & Homelessness Web Support Assistant",
+  "version": "1.0.0",
+  "status": "experimental",
+  "description": "Resident-facing web chat assistant for housing and homelessness queries. Helps residents understand the housing register, report repairs, access homelessness advice, and navigate housing options.",
+
+  "platform": "flowise",
+  "platform_version": {
+    "min_version": "3.0.0",
+    "tested_version": "3.0.5"
+  },
+  "workflow_file": "workflow.json",
+
+  "sector": ["local-gov"],
+  "use_case_category": "resident-self-service",
+  "tags": [
+    "housing",
+    "homelessness",
+    "housing-register",
+    "repairs",
+    "right-to-buy",
+    "rough-sleeping",
+    "temporary-accommodation",
+    "choice-based-lettings",
+    "web-chat",
+    "self-service"
+  ],
+
+  "requirements": {
+    "llm": {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "notes": "Tested on gpt-4o-mini at temperature 0.1. The low temperature is important for this service area — residents in housing crisis may act on the assistant's responses. Accuracy and consistency are essential."
+    },
+    "environment_variables": [
+      {
+        "key": "OPENAI_API_KEY",
+        "required": true,
+        "description": "Your OpenAI API key. Set under Credentials in Flowise and assign to the agent node."
+      }
+    ],
+    "vector_store": {
+      "required": true,
+      "description": "Council housing service pages, allocations policy, choice-based lettings scheme rules, homelessness duty guidance, repair reporting information, Right to Buy guidance, and GOV.UK housing guidance.",
+      "recommended_sources": "See README.md — Data sources section."
+    }
+  },
+
+  "inputs": [
+    {
+      "name": "resident_query",
+      "type": "text",
+      "description": "The resident's question or message, entered via the embedded web chat widget.",
+      "required": true
+    }
+  ],
+
+  "outputs": [
+    {
+      "name": "assistant_response",
+      "type": "text",
+      "description": "A plain-English response answering the resident's query, signposting to the relevant service page or form, or escalating to a human contact."
+    }
+  ],
+
+  "flow_state": [
+    {
+      "key": "council_name",
+      "description": "Your council's full name. Used throughout responses.",
+      "default": "ENTER_COUNCIL_NAME"
+    },
+    {
+      "key": "council_website",
+      "description": "Your council's main website URL. Used when redirecting out-of-scope queries.",
+      "default": "ENTER_COUNCIL_WEBSITE"
+    },
+    {
+      "key": "service_url",
+      "description": "The URL of the council's housing web pages or housing portal.",
+      "default": "ENTER_SERVICE_URL"
+    },
+    {
+      "key": "service_phone",
+      "description": "The housing duty contact number. Must include an out-of-hours emergency homelessness line — this number is provided to residents presenting as homeless.",
+      "default": "ENTER_SERVICE_PHONE"
+    },
+    {
+      "key": "service_email",
+      "description": "The housing team email address.",
+      "default": "ENTER_SERVICE_EMAIL"
+    }
+  ],
+
+  "governance": {
+    "human_review_required": true,
+    "human_review_notes": "Review conversation logs at least weekly. Any conversation involving domestic abuse, rough sleeping, or imminent homelessness must be flagged for the housing team to follow up. Do not rely on the assistant to fully resolve these cases. The assistant provides information and signposting only — homelessness duty assessments are a statutory function requiring a qualified officer.",
+    "data_sensitivity": "medium",
+    "data_notes": "Residents may share sensitive personal circumstances including homelessness, domestic abuse, and mental health issues. The assistant must handle these with care and always prioritise signposting to human support. The assistant must not ask about or record details of domestic abuse incidents. Session memory clears when the conversation ends.",
+    "risk_level": "medium",
+    "iso_42001_aligned": true
+  },
+
+  "licence": "MIT"
+}
