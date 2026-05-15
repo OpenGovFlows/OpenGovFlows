@@ -1,0 +1,105 @@
+{
+  "id": "planning-development-support",
+  "name": "Planning & Development Web Support Assistant",
+  "version": "1.0.0",
+  "status": "experimental",
+  "description": "Resident and applicant-facing web chat assistant for planning queries. Helps residents and applicants search and comment on planning applications, understand permitted development rights, and navigate the planning system.",
+
+  "platform": "flowise",
+  "platform_version": {
+    "min_version": "3.0.0",
+    "tested_version": "3.0.5"
+  },
+  "workflow_file": "workflow.json",
+
+  "sector": ["local-gov"],
+  "use_case_category": "resident-self-service",
+  "tags": [
+    "planning",
+    "development",
+    "planning-permission",
+    "permitted-development",
+    "building-regulations",
+    "conservation",
+    "listed-buildings",
+    "enforcement",
+    "web-chat",
+    "self-service"
+  ],
+
+  "requirements": {
+    "llm": {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "notes": "Tested on gpt-4o-mini at temperature 0.1. Accuracy and consistency are important — incorrect guidance on permitted development or listed building works could lead to residents proceeding without required consent, with potential legal consequences."
+    },
+    "environment_variables": [
+      {
+        "key": "OPENAI_API_KEY",
+        "required": true,
+        "description": "Your OpenAI API key. Set under Credentials in Flowise and assign to the agent node."
+      }
+    ],
+    "vector_store": {
+      "required": true,
+      "description": "Council planning service pages, local plan policies, permitted development guidance for common householder works, conservation area information, building regulations overview, pre-application advice service details, enforcement process, and national planning guidance.",
+      "recommended_sources": "See README.md — Data sources section."
+    }
+  },
+
+  "inputs": [
+    {
+      "name": "resident_query",
+      "type": "text",
+      "description": "The resident's or applicant's question or message, entered via the embedded web chat widget.",
+      "required": true
+    }
+  ],
+
+  "outputs": [
+    {
+      "name": "assistant_response",
+      "type": "text",
+      "description": "A plain-English response answering the query, signposting to the public register or relevant guidance, or escalating to a planning officer."
+    }
+  ],
+
+  "flow_state": [
+    {
+      "key": "council_name",
+      "description": "Your council's full name. Used throughout responses.",
+      "default": "ENTER_COUNCIL_NAME"
+    },
+    {
+      "key": "council_website",
+      "description": "Your council's main website URL. Used when redirecting out-of-scope queries.",
+      "default": "ENTER_COUNCIL_WEBSITE"
+    },
+    {
+      "key": "service_url",
+      "description": "The URL of the council's planning web pages or public access planning register.",
+      "default": "ENTER_SERVICE_URL"
+    },
+    {
+      "key": "service_phone",
+      "description": "The planning enquiries contact number.",
+      "default": "ENTER_SERVICE_PHONE"
+    },
+    {
+      "key": "service_email",
+      "description": "The planning enquiries email address. Also used for enforcement complaint referrals.",
+      "default": "ENTER_SERVICE_EMAIL"
+    }
+  ],
+
+  "governance": {
+    "human_review_required": true,
+    "human_review_notes": "Review conversation logs monthly. Flag patterns indicating residents are receiving inconsistent guidance on permitted development, or are being incorrectly directed on listed building or conservation area queries. The assistant must never give a view on whether a specific proposal will receive planning permission.",
+    "data_sensitivity": "low",
+    "data_notes": "Planning queries are generally not sensitive. Residents may share their address when asking about specific applications or development rights — this should not be stored beyond the active session.",
+    "risk_level": "medium",
+    "iso_42001_aligned": true
+  },
+
+  "licence": "MIT"
+}
